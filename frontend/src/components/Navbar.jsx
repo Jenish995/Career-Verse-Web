@@ -14,6 +14,11 @@ const Navbar = () => {
 
                 <div className='logo' ><a href='#'>Career Verse</a></div>
 
+                <div className='search-bar'>
+                  <i className='bx bx-search'></i>
+                  <input type='search' placeholder='Search jobs, companies, skills' aria-label='Search' />
+                </div>
+
                <ul className='left-elements'>
                     <li><a href='#'><i className='bx bx-home'></i><span>Home</span></a></li>
                     <li><a href='#'><i className='bx bx-briefcase'></i><span>Browse Jobs</span></a></li>

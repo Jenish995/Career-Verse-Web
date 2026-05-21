@@ -9,26 +9,68 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 18px 28px;
+    padding: 16px 32px;
+    flex-wrap: nowrap;
 }
 
 .logo a {
+    display: inline-flex;
+    align-items: center;
     color: var(--text-color);
     text-decoration: none;
     font-size: 1.35rem;
     font-weight: 700;
     letter-spacing: 0.03em;
+    line-height: 1;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 260px;
+    width: min(100%, 440px);
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    background: var(--toggle-bg);
+    flex: 1 1 440px;
+    margin-left: 0;
+}
+
+.search-bar i {
+    font-size: 1.15rem;
+    color: var(--text-color);
+    flex: 0 0 auto;
+}
+
+.search-bar input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--text-color);
+    font: inherit;
+    line-height: 1;
+}
+
+.search-bar input::placeholder {
+    color: color-mix(in srgb, var(--text-color) 62%, transparent);
 }
 
 .left-elements {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     margin: 0;
     padding: 0;
+    flex-shrink: 0;
 }
 
 .left-elements li {
@@ -39,8 +81,9 @@
 .theme-toggle {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
+    justify-content: center;
+    gap: 9px;
+    padding: 10px 16px;
     border-radius: 999px;
     border: 1px solid transparent;
     color: var(--text-color);
@@ -48,7 +91,9 @@
     text-decoration: none;
     font: inherit;
     cursor: pointer;
+    line-height: 1;
     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
 }
 
 .left-elements a:hover,
@@ -60,7 +105,12 @@
 
 .left-elements i,
 .theme-toggle i {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.left-elements span {
+    white-space: nowrap;
 }
 
 .theme-toggle {
@@ -76,11 +126,19 @@
     .nav-div {
         flex-direction: column;
         align-items: stretch;
+        flex-wrap: wrap;
+        padding: 16px 20px;
+    }
+
+    .search-bar {
+        margin-left: 0;
+        width: 100%;
     }
 
     .left-elements {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 10px;
     }
 }
 
