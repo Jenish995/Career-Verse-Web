@@ -1,0 +1,917 @@
+/* Root CSS Variables for Theme */
+:root {
+    --primary-color: #4A90E2; /* A vibrant blue */
+    --secondary-color: #50C878; /* A complementary green */
+    --text-color: #333;
+    --text-color-light: #555;
+    --background-color: #F8F9FA;
+    --card-background: #FFFFFF;
+    --border-color: #E0E0E0;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --hover-shadow: rgba(0, 0, 0, 0.15);
+    --gradient-start: #4A90E2;
+    --gradient-end: #6A82FB;
+}
+
+.dark-theme {
+    --primary-color: #7B68EE; /* A darker purple-blue */
+    --secondary-color: #00BFFF; /* A brighter blue */
+    --text-color: #E0E0E0;
+    --text-color-light: #B0B0B0;
+    --background-color: #1A1A2E;
+    --card-background: #2E2E4A;
+    --border-color: #444466;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --hover-shadow: rgba(0, 0, 0, 0.5);
+    --gradient-start: #1A1A2E;
+    --gradient-end: #3A3A5A;
+}
+
+/* Wrapper to sync theme background across the whole page */
+.home-page-wrapper {
+    background-color: var(--background-color);
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* General Styling */
+.home-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Inter', sans-serif; /* Assuming Inter font is imported globally */
+    color: var(--text-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+p {
+    color: var(--text-color-light);
+    line-height: 1.6;
+}
+
+section {
+    margin-bottom: 60px;
+    padding: 20px 0;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: #FFFFFF;
+    border: 1px solid var(--primary-color);
+}
+
+.btn-primary:hover {
+    filter: brightness(0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--shadow-color);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background: var(--primary-color);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--shadow-color);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-outline:hover {
+    background: var(--primary-color);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--shadow-color);
+}
+
+.btn-apply {
+    background: var(--secondary-color);
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.9em;
+}
+
+.btn-apply:hover {
+    filter: brightness(0.9);
+    transform: translateY(-1px);
+}
+
+.btn-save {
+    background: var(--card-background);
+    color: var(--text-color-light);
+    border: 1px solid var(--border-color);
+    padding: 10px 12px;
+    font-size: 1.1em;
+    border-radius: 8px;
+}
+
+.btn-save:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+/* Hero Section */
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--background-color);
+    border-radius: 15px;
+    margin-bottom: 40px;
+}
+
+.hero-main-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 40px;
+}
+
+.hero-text {
+    flex: 1;
+    min-width: 300px;
+    text-align: left;
+    padding-right: 30px;
+}
+
+.hero-text h1 {
+    font-size: 3.2em;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.hero-text .subtitle {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.hero-illustration {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-illustration img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.floating-cards {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+.floating-card {
+    background: var(--card-background);
+    color: var(--text-color);
+    padding: 8px 15px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    position: absolute;
+    font-size: 0.9em;
+    white-space: nowrap;
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-card:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+.floating-card:nth-child(2) { top: 40%; right: 10%; animation-delay: 2s; }
+.floating-card:nth-child(3) { bottom: 15%; left: 20%; animation-delay: 4s; }
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.stats-section {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item h3 {
+    font-size: 2em;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.stat-item p {
+    font-size: 0.9em;
+    color: var(--text-color-light);
+}
+
+/* Job Search Section */
+.job-search-section {
+    text-align: center;
+    padding: 40px 20px;
+    background: var(--card-background);
+    border-radius: 15px;
+    box-shadow: 0 5px 20px var(--shadow-color);
+    margin-bottom: 60px;
+}
+
+.job-search-section h2 {
+    font-size: 2.2em;
+    margin-bottom: 30px;
+}
+
+.search-bar-large {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-bar-large input,
+.search-bar-large select {
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1em;
+    color: var(--text-color);
+    background: var(--background-color);
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-bar-large input:focus,
+.search-bar-large select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.search-bar-large .btn-primary {
+    padding: 12px 30px;
+    min-width: 120px;
+}
+
+/* Grid Layouts for Cards */
+.job-grid,
+.category-grid,
+.feature-grid,
+.company-grid,
+.resource-grid,
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+/* Card Base Style */
+.job-card,
+.category-card,
+.feature-card,
+.company-card,
+.resource-card,
+.testimonial-card {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.job-card:hover,
+.category-card:hover,
+.feature-card:hover,
+.company-card:hover,
+.resource-card:hover,
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--hover-shadow);
+}
+
+/* Featured Jobs & Latest Jobs Sections */
+.featured-jobs-section h2,
+.latest-jobs-section h2,
+.browse-categories-section h2,
+.why-choose-section h2,
+.top-companies-section h2,
+.how-it-works-section h2,
+.career-resources-section h2,
+.testimonials-section h2 {
+    text-align: center;
+    font-size: 2.2em;
+    margin-bottom: 40px;
+}
+
+.job-card .company-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.job-card .company-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    margin-right: 15px;
+    object-fit: contain;
+    background: var(--background-color);
+    padding: 5px;
+}
+
+.job-card .job-details h3 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.job-card .company-name,
+.job-card .location {
+    font-size: 0.9em;
+    color: var(--text-color-light);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.job-card .job-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.job-card .salary,
+.job-card .experience {
+    background: var(--background-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85em;
+    color: var(--text-color-light);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.job-card .job-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto; /* Pushes actions to the bottom */
+}
+
+.latest-jobs-section .job-card .posting-date {
+    font-size: 0.8em;
+    color: var(--text-color-light);
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+/* Browse Categories Section */
+.category-card {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.category-card i {
+    font-size: 3em;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.category-card p {
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+/* Why Choose Career Verse Section */
+.feature-card {
+    text-align: center;
+}
+
+.feature-card i {
+    font-size: 2.5em;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+/* Top Companies Hiring Section */
+.company-card {
+    text-align: center;
+}
+
+.company-card .company-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: contain;
+    margin: 0 auto 15px auto;
+    background: var(--background-color);
+    padding: 10px;
+}
+
+.company-card h3 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.company-card p {
+    font-size: 0.9em;
+    color: var(--text-color-light);
+    margin-bottom: 20px;
+}
+
+/* How It Works Section */
+.how-it-works-section {
+    text-align: center;
+}
+
+.timeline {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 2px;
+    background: var(--border-color);
+    z-index: -1;
+}
+
+.timeline-item {
+    flex: 1;
+min-width: 200px;
+    max-width: 280px;
+    text-align: center;
+    position: relative;
+    padding-top: 60px;
+}
+
+.timeline-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-color);
+    color: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5em;
+    margin: 0 auto 20px auto;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid var(--background-color);
+    box-shadow: 0 4px 10px var(--shadow-color);
+}
+
+.timeline-item h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+/* Career Resources Section */
+.resource-card {
+    text-align: center;
+}
+
+.resource-card i {
+    font-size: 2.5em;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.resource-card h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.resource-card .read-more {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 15px;
+}
+
+.resource-card .read-more:hover {
+    text-decoration: underline;
+}
+
+/* Testimonials Section */
+.testimonial-card {
+    padding: 30px;
+}
+
+.testimonial-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.testimonial-header .profile-pic {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.testimonial-header h4 {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.testimonial-header p {
+    font-size: 0.85em;
+    color: var(--text-color-light);
+}
+
+.testimonial-card .stars {
+    color: #FFD700; /* Gold color for stars */
+    margin-bottom: 15px;
+}
+
+.testimonial-card .stars i {
+    font-size: 1.2em;
+    margin-right: 2px;
+}
+
+.testimonial-card .quote {
+    font-style: italic;
+    color: var(--text-color);
+}
+
+/* Call To Action Section (Bottom) */
+.cta-bottom-section {
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+    color: #FFFFFF;
+    text-align: center;
+    padding: 80px 20px;
+    border-radius: 15px;
+    margin-top: 60px;
+}
+
+.cta-bottom-section h2 {
+    color: #FFFFFF;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
+
+.cta-bottom-section .btn-primary {
+    background: #FFFFFF;
+    color: var(--primary-color);
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.1em;
+}
+
+.cta-bottom-section .btn-primary:hover {
+    background: #F0F0F0;
+    color: var(--primary-color);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer */
+.footer {
+    background: var(--card-background);
+    padding: 40px 20px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-color-light);
+    font-size: 0.9em;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.footer-about,
+.footer-links,
+.footer-social {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-about .logo {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.footer-links h3,
+.footer-social h3 {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links ul li {
+    margin-bottom: 10px;
+}
+
+.footer-links ul li a {
+    color: var(--text-color-light);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links ul li a:hover {
+    color: var(--primary-color);
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    color: var(--text-color-light);
+    font-size: 1.8em;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: var(--primary-color);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .hero-text h1 {
+        font-size: 2.8em;
+    }
+    .hero-illustration {
+        margin-top: 40px;
+    }
+    .timeline::before {
+        display: none; /* Hide horizontal line on smaller screens */
+    }
+    .timeline-item {
+        padding-top: 0;
+        padding-left: 100px; /* Space for vertical line and icon */
+        text-align: left;
+        position: relative;
+    }
+    .timeline-icon {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: none;
+    }
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: 40px; /* Align with icon center */
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--border-color);
+        z-index: -2;
+    }
+    .timeline-item:first-child::before {
+        top: 40px; /* Start line from icon center */
+    }
+    .timeline-item:last-child::before {
+        bottom: 40px; /* End line at icon center */
+    }
+}
+
+@media (max-width: 768px) {
+    .home-content {
+        padding: 15px;
+    }
+    .hero-main-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .hero-text {
+        padding-right: 0;
+        text-align: center;
+    }
+    .hero-text h1 {
+        font-size: 2.2em;
+    }
+    .hero-text .subtitle {
+        font-size: 1em;
+    }
+    .cta-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .search-bar-large {
+        flex-direction: column;
+    }
+    .search-bar-large input,
+    .search-bar-large select,
+    .search-bar-large .btn-primary {
+        width: 100%;
+        min-width: unset;
+    }
+    .job-grid,
+    .category-grid,
+    .feature-grid,
+    .company-grid,
+    .resource-grid,
+    .testimonial-grid {
+        grid-template-columns: 1fr;
+    }
+    .stats-section {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .timeline-item {
+        padding-left: 80px;
+    }
+    .timeline-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2em;
+    }
+    .timeline-item::before {
+        left: 30px;
+    }
+    .timeline-item:first-child::before {
+        top: 30px;
+    }
+    .timeline-item:last-child::before {
+        bottom: 30px;
+    }
+    .cta-bottom-section h2 {
+        font-size: 1.8em;
+    }
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-links ul {
+        padding-left: 0;
+    }
+    .footer-social {
+        align-items: center;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-text h1 {
+        font-size: 1.8em;
+    }
+    .hero-text .subtitle {
+        font-size: 0.9em;
+    }
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+    .job-search-section h2,
+    .featured-jobs-section h2,
+    .browse-categories-section h2,
+    .why-choose-section h2,
+    .top-companies-section h2,
+    .how-it-works-section h2,
+    .career-resources-section h2,
+    .testimonials-section h2 {
+        font-size: 1.8em;
+    }
+    .floating-card {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
+    .floating-card:nth-child(1) { top: 5%; left: 2%; }
+    .floating-card:nth-child(2) { top: 30%; right: 5%; }
+    .floating-card:nth-child(3) { bottom: 10%; left: 10%; }
+    .timeline-item {
+        padding-left: 60px;
+    }
+    .timeline-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.8em;
+    }
+    .timeline-item::before {
+        left: 25px;
+    }
+    .timeline-item:first-child::before {
+        top: 25px;
+    }
+    .timeline-item:last-child::before {
+        bottom: 25px;
+    }
+    .cta-bottom-section h2 {
+        font-size: 1.5em;
+    }
+    .cta-bottom-section .btn-primary {
+        padding: 12px 30px;
+        font-size: 1em;
+    }
+    .footer-about .logo {
+        font-size: 1.5em;
+    }
+}
+
+/* Utility for darken - since CSS doesn't have a native darken function,
+   this is a simple approximation. For production, consider using Sass/Less
+   or a CSS-in-JS solution with color manipulation. */
+/* Example for darken: */
+/*
+body:not(.dark-theme) .btn-primary:hover {
+    background: #3a7bd5; // A slightly darker shade of #4A90E2
+}
+body.dark-theme .btn-primary:hover {
+    background: #6a5acb; // A slightly darker shade of #7B68EE
+}
+body:not(.dark-theme) .btn-apply:hover {
+    background: #40b868; // A slightly darker shade of #50C878
+}
+body.dark-theme .btn-apply:hover {
+    background: #009acd; // A slightly darker shade of #00BFFF
+}
+*/
