@@ -74,7 +74,7 @@ const Home = () => {
   const { theme } = useTheme();
 
   return (
-    <div className={`home-page-wrapper ${theme === 'dark' ? 'dark-theme' : ''}`}>
+    <div className="home-page-wrapper">
       <Navbar />
       <main className="home-content">
         {/* Hero Section */}

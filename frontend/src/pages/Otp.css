@@ -1,0 +1,102 @@
+.auth-container {
+    background: radial-gradient(circle at 50% 50%, var(--gradient-start) 0%, var(--bg-color) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    padding: 20px;
+}
+
+.auth-form {
+    background: color-mix(in srgb, var(--card-background), transparent 20%);
+    backdrop-filter: blur(16px);
+    padding: 35px 40px;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px var(--shadow-color);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.Logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.Logo img {
+    max-width: 180px;
+    height: auto;
+}
+
+.auth-form h2 {
+    margin-bottom: 6px;
+    font-size: 1.75rem;
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+.auth-form .subtitle {
+    margin-bottom: 25px;
+    color: var(--text-color-light);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.otp-inputs {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.otp-inputs input {
+    width: 50px;
+    height: 60px;
+    background: color-mix(in srgb, var(--bg-color), transparent 40%);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-color);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.otp-inputs input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px color-mix(in srgb, var(--primary-color) 30%, transparent);
+    background: color-mix(in srgb, var(--bg-color), transparent 20%);
+    transform: translateY(-2px);
+}
+
+.auth-btn {
+    width: 100%;
+    height: 50px;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.otp-footer-text {
+    margin-top: 25px;
+    font-size: 0.9rem;
+}
+
+.otp-footer-text a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.otp-footer-text a:hover {
+    text-decoration: underline;
+    color: var(--primary-color);
+}

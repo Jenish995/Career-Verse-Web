@@ -1,44 +1,8 @@
-/* Root CSS Variables for Theme */
-:root {
-    --primary-color: #4A90E2; /* A vibrant blue */
-    --secondary-color: #50C878; /* A complementary green */
-    --text-color: #333;
-    --text-color-light: #555;
-    --background-color: #F8F9FA;
-    --card-background: #FFFFFF;
-    --border-color: #E0E0E0;
-    --shadow-color: rgba(0, 0, 0, 0.08);
-    --hover-shadow: rgba(0, 0, 0, 0.15);
-    --gradient-start: #4A90E2;
-    --gradient-end: #6A82FB;
-}
-
-.dark-theme {
-    --primary-color: #7B68EE; /* A darker purple-blue */
-    --secondary-color: #00BFFF; /* A brighter blue */
-    --text-color: #E0E0E0;
-    --text-color-light: #B0B0B0;
-    --background-color: #1A1A2E;
-    --card-background: #2E2E4A;
-    --border-color: #444466;
-    --shadow-color: rgba(0, 0, 0, 0.3);
-    --hover-shadow: rgba(0, 0, 0, 0.5);
-    --gradient-start: #1A1A2E;
-    --gradient-end: #3A3A5A;
-}
-
-/* Wrapper to sync theme background across the whole page */
-.home-page-wrapper {
-    background-color: var(--background-color);
-    min-height: 100vh;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
 /* General Styling */
 .home-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 20px;
     font-family: 'Inter', sans-serif; /* Assuming Inter font is imported globally */
     color: var(--text-color);
 }

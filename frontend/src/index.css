@@ -7,6 +7,14 @@
 	--hover-bg: rgba(19, 34, 56, 0.06);
 	--toggle-bg: rgba(19, 34, 56, 0.04);
 	--nav-shadow: 0 12px 30px rgba(19, 34, 56, 0.08);
+	--primary-color: #7c3aed;
+	--secondary-color: #db2777;
+	--text-color-light: #555;
+	--card-background: #FFFFFF;
+	--shadow-color: rgba(0, 0, 0, 0.08);
+	--hover-shadow: rgba(0, 0, 0, 0.15);
+	--gradient-start: #f8fafc;
+	--gradient-end: #6A82FB;
 }
 
 html[data-theme='dark'] {
@@ -18,6 +26,14 @@ html[data-theme='dark'] {
 	--hover-bg: rgba(239, 244, 255, 0.08);
 	--toggle-bg: rgba(239, 244, 255, 0.06);
 	--nav-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+	--primary-color: #7B68EE;
+	--secondary-color: #00BFFF;
+	--text-color-light: #B0B0B0;
+	--card-background: #2E2E4A;
+	--shadow-color: rgba(0, 0, 0, 0.3);
+	--hover-shadow: rgba(0, 0, 0, 0.5);
+	--gradient-start: #1A1A2E;
+	--gradient-end: #3A3A5A;
 }
 
 * {

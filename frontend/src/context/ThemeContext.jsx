@@ -11,6 +11,14 @@ const themeTokens = {
     hoverBg: 'rgba(19, 34, 56, 0.06)',
     toggleBg: 'rgba(19, 34, 56, 0.04)',
     navShadow: '0 12px 30px rgba(19, 34, 56, 0.08)',
+    primaryColor: '#7c3aed',
+    secondaryColor: '#db2777',
+    textColorLight: '#555',
+    cardBackground: '#FFFFFF',
+    shadowColor: 'rgba(0, 0, 0, 0.08)',
+    hoverShadow: 'rgba(0, 0, 0, 0.15)',
+    gradientStart: '#f8fafc',
+    gradientEnd: '#6A82FB',
   },
   dark: {
     bgColor: '#09111f',
@@ -20,6 +28,14 @@ const themeTokens = {
     hoverBg: 'rgba(239, 244, 255, 0.08)',
     toggleBg: 'rgba(239, 244, 255, 0.06)',
     navShadow: '0 12px 30px rgba(0, 0, 0, 0.28)',
+    primaryColor: '#7B68EE',
+    secondaryColor: '#00BFFF',
+    textColorLight: '#B0B0B0',
+    cardBackground: '#2E2E4A',
+    shadowColor: 'rgba(0, 0, 0, 0.3)',
+    hoverShadow: 'rgba(0, 0, 0, 0.5)',
+    gradientStart: '#1A1A2E',
+    gradientEnd: '#3A3A5A',
   },
 }
 
@@ -52,6 +68,14 @@ export const ThemeProvider = ({ children }) => {
     root.style.setProperty('--hover-bg', tokens.hoverBg)
     root.style.setProperty('--toggle-bg', tokens.toggleBg)
     root.style.setProperty('--nav-shadow', tokens.navShadow)
+    root.style.setProperty('--primary-color', tokens.primaryColor)
+    root.style.setProperty('--secondary-color', tokens.secondaryColor)
+    root.style.setProperty('--text-color-light', tokens.textColorLight)
+    root.style.setProperty('--card-background', tokens.cardBackground)
+    root.style.setProperty('--shadow-color', tokens.shadowColor)
+    root.style.setProperty('--hover-shadow', tokens.hoverShadow)
+    root.style.setProperty('--gradient-start', tokens.gradientStart)
+    root.style.setProperty('--gradient-end', tokens.gradientEnd)
     localStorage.setItem('theme', theme)
   }, [theme])
 
