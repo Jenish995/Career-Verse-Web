@@ -13,12 +13,12 @@ const companyLogo3 = "https://cdn-icons-png.flaticon.com/512/5968/5968204.png";
 const companyLogo4 = "https://cdn-icons-png.flaticon.com/512/732/732228.png";
 
 const FEATURED_JOBS = [
-  { logo: companyLogo1, title: "Software Engineer", company: "Tech Solutions Inc.", location: "New York, USA", salary: "$80K - $120K", experience: "Mid-Level" },
-  { logo: companyLogo2, title: "UI/UX Designer", company: "Creative Minds Studio", location: "San Francisco, USA", salary: "$70K - $100K", experience: "Senior" },
-  { logo: companyLogo3, title: "Data Scientist", company: "Data Insights Corp.", location: "Remote", salary: "$90K - $130K", experience: "Entry-Level" },
-  { logo: companyLogo4, title: "Marketing Specialist", company: "Global Marketing Agency", location: "London, UK", salary: "£40K - £60K", experience: "Mid-Level" },
-  { logo: companyLogo1, title: "Product Manager", company: "Innovate Solutions", location: "Seattle, USA", salary: "$100K - $150K", experience: "Senior" },
-  { logo: companyLogo2, title: "Customer Support Rep", company: "Service First Co.", location: "Remote", salary: "$35K - $50K", experience: "Entry-Level" },
+  { id: 1, logo: companyLogo1, title: "Software Engineer", company: "Tech Solutions Inc.", location: "New York, USA", salary: "$80K - $120K", experience: "Mid-Level" },
+  { id: 2, logo: companyLogo2, title: "UI/UX Designer", company: "Creative Minds Studio", location: "San Francisco, USA", salary: "$70K - $100K", experience: "Senior" },
+  { id: 3, logo: companyLogo3, title: "Data Scientist", company: "Data Insights Corp.", location: "Remote", salary: "$90K - $130K", experience: "Entry-Level" },
+  { id: 4, logo: companyLogo4, title: "Marketing Specialist", company: "Global Marketing Agency", location: "London, UK", salary: "£40K - £60K", experience: "Mid-Level" },
+  { id: 5, logo: companyLogo1, title: "Product Manager", company: "Innovate Solutions", location: "Seattle, USA", salary: "$100K - $150K", experience: "Senior" },
+  { id: 6, logo: companyLogo2, title: "Customer Support Rep", company: "Service First Co.", location: "Remote", salary: "$35K - $50K", experience: "Entry-Level" },
 ];
 
 const CATEGORIES = [
@@ -61,8 +61,8 @@ const RESOURCES = [
 ];
 
 const LATEST_JOBS = [
-  { logo: companyLogo3, title: "Cloud Engineer", company: "Cloud Innovations", location: "Austin, USA", salary: "$95K - $140K", experience: "Senior", postingDate: "Posted 2 days ago" },
-  { logo: companyLogo4, title: "Content Creator", company: "Digital Storytellers", location: "Remote", salary: "$45K - $70K", experience: "Entry-Level", postingDate: "Posted 3 days ago" },
+  { id: 7, logo: companyLogo3, title: "Cloud Engineer", company: "Cloud Innovations", location: "Austin, USA", salary: "$95K - $140K", experience: "Senior", postingDate: "Posted 2 days ago" },
+  { id: 8, logo: companyLogo4, title: "Content Creator", company: "Digital Storytellers", location: "Remote", salary: "$45K - $70K", experience: "Entry-Level", postingDate: "Posted 3 days ago" },
 ];
 
 const TESTIMONIALS = [

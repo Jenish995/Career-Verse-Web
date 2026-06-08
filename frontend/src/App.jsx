@@ -11,6 +11,7 @@ import Login from './pages/Login.jsx';
 import Registration from './pages/Registration.jsx';
 import Forgotpassword from './pages/Forgotpassword.jsx';
 import Otp from './pages/Otp.jsx';
+import JobDetails from './pages/JobDetails.jsx';
 
 
 
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/signup" element={<Registration />} />
         <Route path="/forgot-password" element={<Forgotpassword />} />
         <Route path="/otpverification" element={<Otp />}/>
+        <Route path="/job/:id" element={<JobDetails />} />
       </Routes>
     </ThemeProvider>
   )

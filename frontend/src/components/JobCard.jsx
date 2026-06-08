@@ -1,10 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const JobCard = ({ logo, title, company, location, salary, experience, postingDate }) => {
+const JobCard = ({ id, logo, title, company, location, salary, experience, postingDate, type, tags, companyInitials }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="job-card">
+    <div className="job-card browse-job-card">
       <div className="company-info">
-        <img src={logo} alt={`${company} Logo`} className="company-logo" />
+        {logo ? (
+          <img src={logo} alt={`${company} Logo`} className="company-logo" />
+        ) : (
+          <div className="company-logo-placeholder">{companyInitials || company.charAt(0)}</div>
+        )}
         <div className="job-details">
           <h3>{title}</h3>
           <p className="company-name">{company}</p>
@@ -15,12 +22,27 @@ const JobCard = ({ logo, title, company, location, salary, experience, postingDa
       </div>
       <div className="job-meta">
         <span className="salary"><i className="bx bx-dollar"></i> {salary}</span>
-        <span className="experience"><i className="bx bx-briefcase"></i> {experience}</span>
+        {experience && <span className="experience"><i className="bx bx-briefcase"></i> {experience}</span>}
+        {type && <span className="job-type"><i className="bx bx-time-five"></i> {type}</span>}
       </div>
-      {postingDate && <p className="posting-date">{postingDate}</p>}
+      
+      {tags && tags.length > 0 && (
+        <div className="job-tags">
+          {tags.map(tag => <span key={tag} className="job-tag">{tag}</span>)}
+        </div>
+      )}
+
+      {postingDate && <p className="posting-date"><i className='bx bx-history'></i> {postingDate}</p>}
+      
       <div className="job-actions">
-        <button className="btn btn-apply">Apply Now</button>
-        <button className="btn btn-save"><i className="bx bx-bookmark"></i></button>
+        <button className="btn btn-primary">Apply Now</button>
+        <button 
+          className="btn btn-outline-primary" 
+          onClick={() => navigate(`/job/${id}`)}
+        >
+          Details
+        </button>
+        <button className="btn-icon-only"><i className="bx bx-bookmark"></i></button>
       </div>
     </div>
   );
