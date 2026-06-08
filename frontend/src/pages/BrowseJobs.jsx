@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { useTheme } from '../context/ThemeContext.jsx';
 import JobFilters from '../components/JobFilters.jsx';
@@ -14,7 +15,9 @@ const MOCK_JOBS = [
     type: "Full-time",
     salary: "$130k - $180k",
     posted: "2h ago",
+    postedDate: new Date(Date.now() - 2 * 60 * 60 * 1000),
     category: "Software Development",
+    experience: "Senior Level",
     tags: ["React", "TypeScript", "Node.js"]
   },
   {
@@ -25,7 +28,9 @@ const MOCK_JOBS = [
     type: "Contract",
     salary: "$90k - $120k",
     posted: "5h ago",
+    postedDate: new Date(Date.now() - 5 * 60 * 60 * 1000),
     category: "UI/UX Design",
+    experience: "Mid Level",
     tags: ["Figma", "UI/UX", "Prototyping"]
   },
   {
@@ -36,7 +41,9 @@ const MOCK_JOBS = [
     type: "Full-time",
     salary: "$140k - $190k",
     posted: "1d ago",
+    postedDate: new Date(Date.now() - 24 * 60 * 60 * 1000),
     category: "Data Science",
+    experience: "Senior Level",
     tags: ["Python", "PyTorch", "SQL"]
   },
   {
@@ -47,29 +54,36 @@ const MOCK_JOBS = [
     type: "Part-time",
     salary: "$50k - $70k",
     posted: "2d ago",
+    postedDate: new Date(Date.now() - 48 * 60 * 60 * 1000),
     category: "Marketing",
+    experience: "Mid Level",
     tags: ["SEO", "AdWords", "Analytics"]
   }
 ];
 
 const BrowseJobs = () => {
   const { theme } = useTheme();
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  // Sync basic search with URL
   const [searchQuery, setSearchQuery] = useState('');
+  const [locationQuery, setLocationQuery] = useState('');
+  const [sortBy, setSortBy] = useState('Newest First');
+
   const [selectedFilters, setSelectedFilters] = useState({
     jobType: [],
     experience: [],
     category: []
   });
 
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const filteredJobs = MOCK_JOBS.filter(job => {
+  const filteredJobs = useMemo(() => {
+    let result = MOCK_JOBS.filter(job => {
     const matchesSearch = 
       job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
       job.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    const matchesLocation = job.location.toLowerCase().includes(locationQuery.toLowerCase());
 
     const matchesType = selectedFilters.jobType.length === 0 || 
       selectedFilters.jobType.includes(job.type);
@@ -77,8 +91,27 @@ const BrowseJobs = () => {
     const matchesCategory = selectedFilters.category.length === 0 || 
       selectedFilters.category.includes(job.category);
 
-    return matchesSearch && matchesType && matchesCategory;
-  });
+    const matchesExperience = selectedFilters.experience.length === 0 || 
+      selectedFilters.experience.includes(job.experience);
+
+    return matchesSearch && matchesLocation && matchesType && matchesCategory && matchesExperience;
+    });
+
+    // Implementation of Sorting Logic
+    if (sortBy === 'Salary: High to Low') {
+      result.sort((a, b) => {
+        const getVal = (s) => parseInt(s.replace(/[^0-9]/g, '')) || 0;
+        return getVal(b.salary) - getVal(a.salary);
+      });
+    } else if (sortBy === 'Newest First') {
+      result.sort((a, b) => b.postedDate - a.postedDate);
+    }
+
+    return result;
+  }, [searchQuery, locationQuery, selectedFilters, sortBy]);
+
+  const handleSearchChange = (e) => setSearchQuery(e.target.value);
+  const handleLocationChange = (e) => setLocationQuery(e.target.value);
 
   return (
     <div className="browse-jobs-page">
@@ -96,12 +129,17 @@ const BrowseJobs = () => {
                 type="text" 
                 placeholder="Search job titles, companies, or keywords..." 
                 value={searchQuery}
-                onChange={handleSearch}
+                onChange={handleSearchChange}
               />
             </div>
             <div className="search-input-group location">
               <i className='bx bx-map'></i>
-              <input type="text" placeholder="Location (e.g. Remote, NYC)" />
+              <input 
+                type="text" 
+                placeholder="Location (e.g. Remote, NYC)" 
+                value={locationQuery}
+                onChange={handleLocationChange}
+              />
             </div>
             <button className="btn btn-primary search-btn">Find Jobs</button>
           </div>
@@ -121,7 +159,7 @@ const BrowseJobs = () => {
             <span>Showing <strong>{filteredJobs.length}</strong> jobs</span>
             <div className="sort-dropdown">
               <label>Sort by:</label>
-              <select>
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
                 <option>Newest First</option>
                 <option>Salary: High to Low</option>
                 <option>Relevance</option>
@@ -140,6 +178,7 @@ const BrowseJobs = () => {
                   location={job.location}
                   salary={job.salary}
                   type={job.type}
+                  experience={job.experience}
                   postingDate={job.posted}
                   tags={job.tags}
                 />

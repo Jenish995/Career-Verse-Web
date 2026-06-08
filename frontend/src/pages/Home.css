@@ -102,6 +102,19 @@ section {
     transform: translateY(-1px);
 }
 
+.btn-icon-only {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--text-color-light);
+    transition: all 0.3s ease;
+}
+
+.btn-icon-only.saved i {
+    color: #facc15; /* Yellow color */
+}
+
 /* Hero Section */
 .hero-section {
     display: flex;

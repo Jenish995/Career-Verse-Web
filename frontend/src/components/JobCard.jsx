@@ -1,8 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useWishlist } from '../context/WishlistContext';
 
 const JobCard = ({ id, logo, title, company, location, salary, experience, postingDate, type, tags, companyInitials }) => {
   const navigate = useNavigate();
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const isSaved = isInWishlist(id);
 
   return (
     <div className="job-card browse-job-card">
@@ -42,7 +45,12 @@ const JobCard = ({ id, logo, title, company, location, salary, experience, posti
         >
           Details
         </button>
-        <button className="btn-icon-only"><i className="bx bx-bookmark"></i></button>
+        <button 
+          className={`btn-icon-only ${isSaved ? 'saved' : ''}`}
+          onClick={() => toggleWishlist({ id, logo, title, company, location, salary, experience, postingDate, type, tags, companyInitials })}
+        >
+          <i className={`bx ${isSaved ? 'bxs-bookmark' : 'bx-bookmark'}`}></i>
+        </button>
       </div>
     </div>
   );

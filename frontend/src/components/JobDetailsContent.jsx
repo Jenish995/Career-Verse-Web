@@ -1,6 +1,10 @@
 import React from 'react';
+import { useWishlist } from '../context/WishlistContext';
 
 const JobDetailsContent = ({ job }) => {
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const isSaved = isInWishlist(job.id);
+
   return (
     <div className="job-details-grid">
       {/* Left Column: Main Content */}
@@ -104,7 +108,12 @@ const JobDetailsContent = ({ job }) => {
           <div className="action-buttons">
             <button className="btn btn-primary btn-block">Apply Now</button>
             <div className="secondary-actions">
-              <button className="btn btn-outline"><i className='bx bx-bookmark'></i> Save</button>
+              <button 
+                className={`btn btn-outline ${isSaved ? 'saved' : ''}`}
+                onClick={() => toggleWishlist(job)}
+              >
+                <i className={`bx ${isSaved ? 'bxs-bookmark' : 'bx-bookmark'}`}></i> Save
+              </button>
               <button className="btn btn-outline"><i className='bx bx-share-alt'></i> Share</button>
             </div>
           </div>

@@ -1,4 +1,7 @@
 .nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     background: var(--nav-bg);
     border-bottom: 1px solid var(--border-color);
     box-shadow: var(--nav-shadow);
@@ -122,26 +125,104 @@
     display: flex;
 }
 
-@media (max-width: 860px) {
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.75rem;
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.menu-toggle:hover {
+    color: var(--primary-color);
+}
+
+@media (max-width: 991px) {
     .nav-div {
-        flex-direction: column;
-        align-items: stretch;
-        flex-wrap: wrap;
+        justify-content: space-between;
         padding: 16px 20px;
     }
 
     .search-bar {
-        margin-left: 0;
-        width: 100%;
+        order: 2;
+        flex: 1 1 auto;
+        margin: 0 12px;
+        min-width: 0;
+        flex-basis: 0; /* Ensures it shrinks to fit logo and hamburger */
+    }
+
+    .logo {
+        order: 1;
+    }
+
+    .menu-toggle {
+        display: flex;
+        order: 3;
+        position: relative;
+        z-index: 1100;
+    }
+
+    .nav-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 1050;
+    }
+
+    .nav-overlay.active {
+        opacity: 1;
+        visibility: visible;
     }
 
     .left-elements {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 280px;
+        background: var(--card-background);
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 80px 20px 40px;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+        transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1080;
+        gap: 8px;
+    }
+
+    .left-elements.active {
+        transform: translateX(0);
+    }
+
+    .left-elements li {
+        width: 100%;
+    }
+
+    .left-elements a,
+    .theme-toggle {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 12px 16px;
+        border-radius: 12px;
+        background: var(--toggle-bg);
+    }
+
+    .theme-item {
+        width: 100%;
+    }
+
+    .left-elements a:hover,
+    .theme-toggle:hover {
+        transform: none;
     }
 }
-
-
-
-

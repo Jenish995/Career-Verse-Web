@@ -154,6 +154,10 @@
 .btn-block { width: 100%; padding: 14px; font-size: 1rem; font-weight: 600; }
 .secondary-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
+.btn.saved i {
+    color: #facc15; /* Yellow color */
+}
+
 .sidebar-divider { height: 1px; background: var(--border-color); margin: 20px 0; }
 .info-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem; }
 .info-row .label { color: var(--text-color-light); display: flex; align-items: center; gap: 6px; }

@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from './components/Navbar.jsx'
 import { ThemeProvider } from './context/ThemeContext.jsx'
+import { WishlistProvider } from './context/WishlistContext.jsx'
 import { Routes, Route } from "react-router-dom";
 import Profile from "./pages/Profile.jsx"
 import SavedJobs from "./pages/SavedJobs.jsx"
@@ -18,6 +19,7 @@ import JobDetails from './pages/JobDetails.jsx';
 const App = () => {
   return (
     <ThemeProvider>
+      <WishlistProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
@@ -30,6 +32,7 @@ const App = () => {
         <Route path="/otpverification" element={<Otp />}/>
         <Route path="/job/:id" element={<JobDetails />} />
       </Routes>
+      </WishlistProvider>
     </ThemeProvider>
   )
 }
