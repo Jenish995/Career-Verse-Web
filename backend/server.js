@@ -1,29 +1,38 @@
-require('dotenv').config(); // Load environment variables from .env file
-const { Client } = require('pg');
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
 
-const client = new Client({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+const pool = require("./database/db") 
+const userRoute = require("./routes/userRoutes");
+
+const app = express();
+
+//Middle ware
+app.use(cors());
+app.use(express.json());
+
+//Testing db connection
+pool.connect()
+.then(() => console.group("Database connected"))
+.then(() => console.log("Database connected"))
+.catch(err => console.log("DB error", err));
+
+//Routes
+app.use("/api/users", userRoute);
+
+//Default route
+app.get('/', (req, res) => {
+  res.send("Server is running");
 });
 
-async function connectToDatabase() {
-  try {
-    await client.connect();
-    console.log('Database connected successfully!');
-    // You can perform a simple query to verify the connection
-    const res = await client.query('SELECT NOW()');
-    console.log('Current database time:', res.rows[0].now);
-  } catch (err) {
-    console.error('Database connection failed:', err.message);
-  } finally {
-    // It's good practice to close the connection if this script is just for testing
-    // For a long-running server, you'd keep the connection open.
-    await client.end();
-    console.log('Database connection closed.');
-  }
-}
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
 
-connectToDatabase();
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () =>{
+  console.log(`Server is running at port: ${PORT}`)
+})
