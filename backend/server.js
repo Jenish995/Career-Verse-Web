@@ -1,38 +1,33 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+require("dotenv").config();
 
-const pool = require("./database/db") 
-const userRoute = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoute");
+const userRoutes = require("./routes/userRoutes");
+const jobRoutes = require("./routes/jobRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 
 const app = express();
 
-//Middle ware
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-//Testing db connection
-pool.connect()
-.then(() => console.group("Database connected"))
-.then(() => console.log("Database connected"))
-.catch(err => console.log("DB error", err));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-//Routes
-app.use("/api/users", userRoute);
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/jobs", jobRoutes);
+app.use("/api/uploads", uploadRoutes);
 
-//Default route
-app.get('/', (req, res) => {
-  res.send("Server is running");
-});
-
-// Global Error Handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something went wrong!');
+app.get("/", (req, res) => {
+  res.send("Career-Verse API is running...");
 });
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () =>{
-  console.log(`Server is running at port: ${PORT}`)
-})
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

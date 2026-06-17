@@ -81,7 +81,8 @@
 }
 
 .left-elements a,
-.theme-toggle {
+.theme-toggle,
+.logout-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -95,19 +96,25 @@
     font: inherit;
     cursor: pointer;
     line-height: 1;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
     white-space: nowrap;
 }
 
 .left-elements a:hover,
-.theme-toggle:hover {
+.theme-toggle:hover,
+.logout-button:hover {
     background: var(--hover-bg);
     border-color: var(--border-color);
     transform: translateY(-1px);
 }
 
 .left-elements i,
-.theme-toggle i {
+.theme-toggle i,
+.logout-button i {
     font-size: 1rem;
     line-height: 1;
 }
@@ -123,6 +130,78 @@
 
 .theme-item {
     display: flex;
+}
+
+.profile-menu {
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: -10px;
+}
+
+.profile-trigger,
+.profile-dropdown a,
+.profile-dropdown .logout-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    color: var(--text-color);
+    background: transparent;
+    text-decoration: none;
+    font: inherit;
+    cursor: pointer;
+    line-height: 1;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+    white-space: nowrap;
+}
+
+.profile-trigger {
+    min-width: 52px;
+    min-height: 52px;
+    padding: 12px 14px;
+}
+
+.profile-trigger i {
+    font-size: 1.35rem;
+}
+
+.profile-trigger-label {
+    display: none;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: calc(100% + 2px);
+    right: 0;
+    min-width: 190px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--card-background);
+    box-shadow: var(--nav-shadow);
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1200;
+}
+
+.profile-menu.open .profile-dropdown {
+    display: flex;
+}
+
+.profile-trigger:hover,
+.profile-dropdown a:hover,
+.profile-dropdown .logout-button:hover {
+    background: var(--hover-bg);
+    border-color: var(--border-color);
+    transform: translateY(-1px);
 }
 
 .menu-toggle {
@@ -209,7 +288,11 @@
     }
 
     .left-elements a,
-    .theme-toggle {
+    .theme-toggle,
+    .logout-button,
+    .profile-trigger,
+    .profile-dropdown a,
+    .profile-dropdown .logout-button {
         width: 100%;
         justify-content: flex-start;
         padding: 12px 16px;
@@ -217,12 +300,42 @@
         background: var(--toggle-bg);
     }
 
-    .theme-item {
+    .theme-item,
+    .profile-menu {
         width: 100%;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+
+    .profile-trigger-label {
+        display: inline;
+    }
+
+    .profile-trigger {
+        min-width: 100%;
+        min-height: auto;
+    }
+
+    .profile-trigger i {
+        font-size: 1rem;
+    }
+
+    .profile-dropdown {
+        position: static;
+        margin-top: 8px;
+        min-width: 100%;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        padding: 0;
     }
 
     .left-elements a:hover,
-    .theme-toggle:hover {
+    .theme-toggle:hover,
+    .logout-button:hover,
+    .profile-trigger:hover,
+    .profile-dropdown a:hover,
+    .profile-dropdown .logout-button:hover {
         transform: none;
     }
 }

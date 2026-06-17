@@ -1,5 +1,9 @@
 .auth-container {
-    background: radial-gradient(circle at 50% 50%, var(--gradient-start) 0%, var(--bg-color) 100%);
+    background: radial-gradient(
+        circle at 50% 50%,
+        var(--gradient-start) 0%,
+        var(--bg-color) 100%
+    );
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,7 +66,6 @@
     cursor: pointer;
 }
 
-
 .wrapper input {
     width: 100%;
     height: 50px;
@@ -73,12 +76,15 @@
     font-size: 1rem;
     color: var(--text-color);
     outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 .wrapper input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary-color) 15%, transparent);
+    box-shadow: 0 0 0 4px
+        color-mix(in srgb, var(--primary-color) 15%, transparent);
 }
 
 .wrapper input:focus + i {
@@ -102,7 +108,8 @@
 .auth-btn:hover {
     filter: brightness(1.1);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--primary-color) 30%, transparent);
+    box-shadow: 0 4px 12px
+        color-mix(in srgb, var(--primary-color) 30%, transparent);
 }
 
 .auth-footer {
@@ -120,4 +127,57 @@
 .auth-footer a:hover {
     text-decoration: underline;
     color: var(--primary-color);
+}
+
+/* Role Selection Styles */
+.role-selection {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    justify-content: center;
+}
+
+.role-option {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--card-background);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    color: var(--text-color-light);
+}
+
+.role-option.active {
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.auth-message {
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    text-align: left;
+}
+
+.auth-error {
+    background: color-mix(in srgb, #ef4444 14%, transparent);
+    border: 1px solid color-mix(in srgb, #ef4444 30%, transparent);
+    color: #b91c1c;
+}
+
+.auth-success {
+    background: color-mix(in srgb, #22c55e 14%, transparent);
+    border: 1px solid color-mix(in srgb, #22c55e 30%, transparent);
+    color: #15803d;
+}
+
+.auth-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }

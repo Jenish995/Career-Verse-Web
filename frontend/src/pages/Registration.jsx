@@ -1,67 +1,175 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext.jsx';
-import Navbar from '../components/Navbar';
-import { useState } from 'react';
-import logo from '../assets/Logo.png';
-
-import './Registration.css'; 
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/Logo.png";
+import { persistAuthSession, registerUser } from "../services/auth";
+import "./Registration.css";
 
 const Registration = () => {
+  const navigate = useNavigate();
+  const [role, setRole] = useState("candidate");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const[showPassword, setShowPassword] = useState(true);
-  const[showConfirmPassword, setShowConfirmPassword] = useState(true);
-
-
-  const togglePassword = () => {
-    setShowPassword(!showPassword);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError("");
+    setSuccess("");
 
-  const toggleConfirmPassword = () => {
-    setShowConfirmPassword(!showConfirmPassword);
+    if (formData.password !== formData.confirmPassword) {
+      setError("Authentication failed");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const data = await registerUser({
+        fullName: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        role: "candidate",
+      });
+
+      persistAuthSession(data);
+      setSuccess("Registration successful");
+      setTimeout(() => navigate("/profile"), 700);
+    } catch {
+      setError("Authentication failed");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
-
 
   return (
-    <div className="home-page-wrapper">
-      <Navbar />
-      <div className="auth-container">
-        <form className='auth-form'>
-          <div className="Logo">
+    <div className="auth-container">
+      <div className="auth-form">
+        <div className="Logo">
+          <Link to="/">
             <img src={logo} alt="Career Verse Logo" />
-          </div>  
-          <h2>Create Account</h2>
-          <p className="subtitle">Join Career Verse to find your dream job</p>
+          </Link>
+        </div>
+        <h2>Create Account</h2>
+        <p className="subtitle">
+          Join Career Verse to explore opportunities or find top talent.
+        </p>
 
-          <div className='wrapper'>
-              <input type='text' placeholder='FullName' required></input>
-              <i className='bx bx-user'></i> 
+        <div className="role-selection">
+          <div
+            className={`role-option ${role === "candidate" ? "active" : ""}`}
+            onClick={() => setRole("candidate")}
+          >
+            Candidate
           </div>
-          <div className='wrapper'>
-              <input type='date' placeholder='Date of Birth' required></input>
-              <i className='bx bx-calendar'></i>
+          <div
+            className={`role-option ${role === "recruiter" ? "active" : ""}`}
+            onClick={() => setRole("recruiter")}
+          >
+            Recruiter
           </div>
-          <div className='wrapper'>
-              <input type='email' placeholder='Email' required></input>
-              <i className='bx bx-envelope'></i>
-          </div>
-          <div className='wrapper'>
-              <input type={showPassword ? 'password' : 'text'} placeholder='Password' required></input>
-              <i className={showPassword ? 'bx bx-hide' : 'bx bx-show'} onClick={togglePassword}></i>
-          </div>
+        </div>
 
-          <div className='wrapper'>
-              <input type={showConfirmPassword ? 'password' : 'text'} placeholder='Confirm Password' required></input>
-              <i className={showConfirmPassword ? 'bx bx-hide' : 'bx bx-show'} onClick={toggleConfirmPassword}></i>
-          </div>
+        {error ? <p className="auth-message auth-error">{error}</p> : null}
+        {success ? (
+          <p className="auth-message auth-success">{success}</p>
+        ) : null}
 
-          <button type="submit" className="btn btn-primary auth-btn" >Sign Up</button>
-          
-          <div className="auth-footer">
-            <p>Already have an account? <Link to="/login">Login</Link></p>
+        {role === "candidate" ? (
+          <form onSubmit={handleSubmit}>
+            <div className="wrapper">
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Full Name *"
+                value={formData.fullName}
+                onChange={handleChange}
+                required
+              />
+              <i className="bx bxs-user"></i>
+            </div>
+            <div className="wrapper">
+              <input
+                type="email"
+                name="email"
+                placeholder="Email *"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+              <i className="bx bxs-envelope"></i>
+            </div>
+            <div className="wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password *"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              <i
+                className={showPassword ? "bx bx-show" : "bx bx-hide"}
+                onClick={() => setShowPassword(!showPassword)}
+              ></i>
+            </div>
+            <div className="wrapper">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                placeholder="Confirm Password *"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+              <i
+                className={showConfirmPassword ? "bx bx-show" : "bx bx-hide"}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              ></i>
+            </div>
+            <button type="submit" className="auth-btn" disabled={isSubmitting}>
+              {isSubmitting ? "Creating account..." : "Sign Up as Candidate"}
+            </button>
+          </form>
+        ) : (
+          <div style={{ padding: "20px 0" }}>
+            <p
+              style={{ color: "var(--text-color-light)", marginBottom: "25px" }}
+            >
+              Looking to hire? Register your company to start posting jobs.
+            </p>
+            <Link
+              to="/recruiter-signup"
+              className="auth-btn"
+              style={{
+                display: "flex",
+                textDecoration: "none",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              Register as Recruiter
+            </Link>
           </div>
-        </form>
+        )}
+
+        <div className="auth-footer">
+          <p>
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+        </div>
       </div>
     </div>
   );
