@@ -10,7 +10,8 @@ const getJobs = async (req, res) => {
   try {
     const limit = req.query.limit ? Number.parseInt(req.query.limit, 10) : null;
     const sortBy = req.query.sortBy === "salary" ? "salary" : "newest";
-    const jobs = await listJobs({ limit, sortBy });
+    const companyId = req.query.companyId || null;
+    const jobs = await listJobs({ limit, sortBy, companyId });
 
     return res.status(200).json({ jobs });
   } catch (error) {
@@ -52,7 +53,10 @@ const createNewJob = async (req, res) => {
 
 const updateExistingJob = async (req, res) => {
   try {
-    const job = await updateJob(req.params.id, req.body);
+    const job = await updateJob(req.params.id, {
+      ...req.body,
+      expectedCompanyId: req.body.companyId || req.query.companyId,
+    });
 
     if (!job) {
       return res.status(404).json({ message: "Job not found" });
@@ -67,7 +71,7 @@ const updateExistingJob = async (req, res) => {
 
 const deleteExistingJob = async (req, res) => {
   try {
-    const result = await deleteJob(req.params.id);
+    const result = await deleteJob(req.params.id, req.query.companyId);
 
     if (!result) {
       return res.status(404).json({ message: "Job not found" });

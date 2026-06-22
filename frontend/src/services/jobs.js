@@ -115,6 +115,10 @@ export const getJobs = async (params = {}) => {
     query.set("sortBy", params.sortBy);
   }
 
+  if (params.companyId) {
+    query.set("companyId", params.companyId);
+  }
+
   const queryString = query.toString();
   const response = await fetch(`${API_BASE_URL}/jobs${queryString ? `?${queryString}` : ""}`);
   return parseJsonResponse(response);
@@ -122,5 +126,46 @@ export const getJobs = async (params = {}) => {
 
 export const getJobById = async (id) => {
   const response = await fetch(`${API_BASE_URL}/jobs/${id}`);
+  return parseJsonResponse(response);
+};
+
+export const createJob = async (payload) => {
+  const response = await fetch(`${API_BASE_URL}/jobs`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  return parseJsonResponse(response);
+};
+
+export const updateJob = async (id, payload) => {
+  const response = await fetch(`${API_BASE_URL}/jobs/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  return parseJsonResponse(response);
+};
+
+export const closeJob = async (id, companyId) => {
+  const query = new URLSearchParams();
+
+  if (companyId) {
+    query.set("companyId", companyId);
+  }
+
+  const response = await fetch(
+    `${API_BASE_URL}/jobs/${id}${query.toString() ? `?${query.toString()}` : ""}`,
+    {
+      method: "DELETE",
+    },
+  );
+
   return parseJsonResponse(response);
 };

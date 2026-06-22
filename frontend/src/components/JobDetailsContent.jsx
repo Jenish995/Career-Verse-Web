@@ -1,5 +1,4 @@
-import React from 'react';
-import { useWishlist } from '../context/WishlistContext';
+import { useWishlist } from '../context/useWishlist';
 
 const JobDetailsContent = ({ job }) => {
   const { toggleWishlist, isInWishlist } = useWishlist();

@@ -1,6 +1,4 @@
-               d d dwd qw21qwr W 23R  23R 239 TU23 E 2323 23R2
-               R2 3 9
-               YV 2T -W V3V 2T  23  3-\4 T  43const pool = require("../database/db");
+ pool = require("../database/db");
 
 const findUserByEmail = async (email) => {
   const result = await pool.query(

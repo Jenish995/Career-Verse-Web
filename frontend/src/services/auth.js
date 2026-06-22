@@ -107,4 +107,40 @@ export const clearAuthSession = () => {
   localStorage.removeItem("profile");
 };
 
+export const forgotPassword = async (email) => {
+  const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  return parseJsonResponse(response);
+};
+
+export const verifyOtp = async (email, otp) => {
+  const response = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, otp }),
+  });
+
+  return parseJsonResponse(response);
+};
+
+export const resetPassword = async (email, otp, password) => {
+  const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, otp, password }),
+  });
+
+  return parseJsonResponse(response);
+};
+
 export { API_BASE_URL };

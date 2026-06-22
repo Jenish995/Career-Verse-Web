@@ -1,25 +1,30 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useWishlist } from '../context/WishlistContext';
+import { useWishlist } from '../context/useWishlist';
 
 const JobCard = ({ id, logo, title, company, location, salary, experience, postingDate, type, tags, companyInitials }) => {
   const navigate = useNavigate();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const isSaved = isInWishlist(id);
+  const companyName = company || 'Unknown company';
+  const displayTitle = title || 'Untitled role';
+  const displayLocation = location || 'Location not listed';
+  const displayTags = Array.isArray(tags) ? tags : [];
 
   return (
     <div className="job-card browse-job-card">
       <div className="company-info">
         {logo ? (
-          <img src={logo} alt={`${company} Logo`} className="company-logo" />
+          <img src={logo} alt={`${companyName} Logo`} className="company-logo" />
         ) : (
-          <div className="company-logo-placeholder">{companyInitials || company.charAt(0)}</div>
+          <div className="company-logo-placeholder">
+            {companyInitials || companyName.charAt(0).toUpperCase()}
+          </div>
         )}
         <div className="job-details">
-          <h3>{title}</h3>
-          <p className="company-name">{company}</p>
+          <h3>{displayTitle}</h3>
+          <p className="company-name">{companyName}</p>
           <p className="location">
-            <i className="bx bx-map"></i> {location}
+            <i className="bx bx-map"></i> {displayLocation}
           </p>
         </div>
       </div>
@@ -29,9 +34,9 @@ const JobCard = ({ id, logo, title, company, location, salary, experience, posti
         {type && <span className="job-type"><i className="bx bx-time-five"></i> {type}</span>}
       </div>
       
-      {tags && tags.length > 0 && (
+      {displayTags.length > 0 && (
         <div className="job-tags">
-          {tags.map(tag => <span key={tag} className="job-tag">{tag}</span>)}
+          {displayTags.map(tag => <span key={tag} className="job-tag">{tag}</span>)}
         </div>
       )}
 
@@ -47,7 +52,20 @@ const JobCard = ({ id, logo, title, company, location, salary, experience, posti
         </button>
         <button 
           className={`btn-icon-only ${isSaved ? 'saved' : ''}`}
-          onClick={() => toggleWishlist({ id, logo, title, company, location, salary, experience, postingDate, type, tags, companyInitials })}
+          onClick={() => toggleWishlist({
+            id,
+            logo,
+            title: displayTitle,
+            company: companyName,
+            location: displayLocation,
+            salary,
+            experience,
+            postingDate,
+            type,
+            tags: displayTags,
+            companyInitials,
+          })}
+          aria-label={isSaved ? 'Remove from saved jobs' : 'Save job'}
         >
           <i className={`bx ${isSaved ? 'bxs-bookmark' : 'bx-bookmark'}`}></i>
         </button>

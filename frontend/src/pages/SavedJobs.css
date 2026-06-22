@@ -1,0 +1,23 @@
+.saved-jobs-section {
+  margin-top: 40px;
+}
+
+.saved-jobs-section h2 {
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.saved-jobs-section > p {
+  margin-bottom: 30px;
+}
+
+.saved-jobs-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 100px 0;
+}
+
+.saved-jobs-empty i {
+  font-size: 4rem;
+  color: var(--text-color-light);
+}

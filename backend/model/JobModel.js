@@ -44,10 +44,17 @@ const baseSelect = `
   INNER JOIN companies c ON c.id = j.company_id
 `;
 
-const listJobs = async ({ limit, sortBy = "newest" }) => {
+const listJobs = async ({ limit, sortBy = "newest", companyId }) => {
   const values = [];
   const orderBy = sortBy === "salary" ? "j.salary_max DESC NULLS LAST" : "j.created_at DESC";
-  let query = `${baseSelect} WHERE j.is_active = TRUE ORDER BY ${orderBy}`;
+  let query = `${baseSelect} WHERE j.is_active = TRUE`;
+
+  if (companyId) {
+    values.push(companyId);
+    query += ` AND j.company_id = $${values.length}`;
+  }
+
+  query += ` ORDER BY ${orderBy}`;
 
   if (limit) {
     values.push(limit);
@@ -175,6 +182,7 @@ const updateJob = async (jobId, payload) => {
     recruiterRole,
     recruiterImage,
     isActive,
+    expectedCompanyId,
   } = payload;
 
   const result = await pool.query(
@@ -208,6 +216,7 @@ const updateJob = async (jobId, payload) => {
          is_active = COALESCE($28, is_active),
          updated_at = CURRENT_TIMESTAMP
      WHERE id = $1
+       AND ($29::uuid IS NULL OR company_id = $29::uuid)
      RETURNING id`,
     [
       jobId,
@@ -238,6 +247,7 @@ const updateJob = async (jobId, payload) => {
       recruiterRole || null,
       recruiterImage || null,
       typeof isActive === "boolean" ? isActive : null,
+      expectedCompanyId || null,
     ]
   );
 
@@ -248,14 +258,15 @@ const updateJob = async (jobId, payload) => {
   return findJobById(jobId);
 };
 
-const deleteJob = async (jobId) => {
+const deleteJob = async (jobId, expectedCompanyId) => {
   const result = await pool.query(
     `UPDATE jobs
      SET is_active = FALSE,
          updated_at = CURRENT_TIMESTAMP
      WHERE id = $1
+       AND ($2::uuid IS NULL OR company_id = $2::uuid)
      RETURNING id`,
-    [jobId]
+    [jobId, expectedCompanyId || null]
   );
 
   return result.rows[0] || null;

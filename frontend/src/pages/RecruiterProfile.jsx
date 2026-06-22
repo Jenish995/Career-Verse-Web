@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "./Profile.css";
 import "./RecruiterProfile.css";
@@ -207,9 +208,16 @@ const RecruiterProfile = () => {
                   </div>
                 </div>
                 <div className="profile-header-actions">
-                  <button className="btn btn-primary">
+                  <Link className="btn btn-primary" to="/post-job">
                     <i className="bx bx-plus"></i> Post a Job
-                  </button>
+                  </Link>
+                  <Link
+                    className="btn btn-outline"
+                    to="/recruiter/jobs"
+                    style={{ marginLeft: "10px" }}
+                  >
+                    <i className="bx bx-list-ul"></i> My Jobs
+                  </Link>
                   <button
                     className="btn btn-outline"
                     style={{ marginLeft: "10px" }}

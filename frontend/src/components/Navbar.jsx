@@ -92,6 +92,22 @@ const Navbar = () => {
                   <span>Browse Jobs</span>
                 </Link>
               </li>
+              {user?.role === "recruiter" ? (
+                <>
+                  <li>
+                    <Link to="/recruiter/jobs" onClick={() => setIsMenuOpen(false)}>
+                      <i className="bx bx-list-ul"></i>
+                      <span>My Jobs</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/post-job" onClick={() => setIsMenuOpen(false)}>
+                      <i className="bx bx-plus-circle"></i>
+                      <span>Post Job</span>
+                    </Link>
+                  </li>
+                </>
+              ) : null}
               <li>
                 <Link to="/notifications" onClick={() => setIsMenuOpen(false)}>
                   <i className="bx bx-bell"></i>

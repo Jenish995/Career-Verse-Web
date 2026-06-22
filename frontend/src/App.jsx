@@ -14,6 +14,8 @@ import JobDetails from "./pages/JobDetails.jsx";
 import RecruiterForm from "./pages/RecruiterForm.jsx";
 import RecruiterProfile from "./pages/RecruiterProfile.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
+import PostJob from "./pages/PostJob.jsx";
+import RecruiterJobs from "./pages/RecruiterJobs.jsx";
 
 const App = () => {
   return (
@@ -32,6 +34,9 @@ const App = () => {
           <Route path="/job/:id" element={<JobDetails />} />
           <Route path="/recruiter-signup" element={<RecruiterForm />} />
           <Route path="/recruiter-profile" element={<RecruiterProfile />} />
+          <Route path="/post-job" element={<PostJob />} />
+          <Route path="/post-job/:id" element={<PostJob />} />
+          <Route path="/recruiter/jobs" element={<RecruiterJobs />} />
           <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </WishlistProvider>
