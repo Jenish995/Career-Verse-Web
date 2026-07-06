@@ -401,7 +401,7 @@ const Profile = () => {
                 <div className="experience-editor-list">
                   {formData.experience.map((item, index) => (
                     <div
-                      key={`${item.role}-${index}`}
+                      key={index}
                       className="experience-editor-card"
                     >
                       <div className="profile-form-grid">

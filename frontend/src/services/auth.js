@@ -1,6 +1,14 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
+export const AUTH_CHANGED_EVENT = "careerverse-auth-changed";
+
+const notifyAuthChanged = () => {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event(AUTH_CHANGED_EVENT));
+  }
+};
+
 const parseJsonResponse = async (response) => {
   const data = await response.json().catch(() => ({}));
 
@@ -83,6 +91,8 @@ export const persistAuthSession = (data) => {
   } else {
     localStorage.removeItem("profile");
   }
+
+  notifyAuthChanged();
 };
 
 export const persistProfile = (profile) => {
@@ -101,10 +111,23 @@ export const uploadImage = async (file) => {
   return parseJsonResponse(response);
 };
 
+export const uploadResume = async (file) => {
+  const formData = new FormData();
+  formData.append("resume", file);
+
+  const response = await fetch(`${API_BASE_URL}/uploads/resume`, {
+    method: "POST",
+    body: formData,
+  });
+
+  return parseJsonResponse(response);
+};
+
 export const clearAuthSession = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
   localStorage.removeItem("profile");
+  notifyAuthChanged();
 };
 
 export const forgotPassword = async (email) => {

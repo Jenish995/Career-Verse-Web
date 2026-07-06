@@ -3,9 +3,11 @@ import "./Navbar.css";
 import { useTheme } from "../context/ThemeContext.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import { clearAuthSession } from "../services/auth";
+import { useWishlist } from "../context/useWishlist";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
+  const { wishlist } = useWishlist();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -117,7 +119,7 @@ const Navbar = () => {
               <li>
                 <Link to="/saved" onClick={() => setIsMenuOpen(false)}>
                   <i className="bx bx-bookmark"></i>
-                  <span>Saved Jobs</span>
+                  <span>Saved Jobs{wishlist.length > 0 ? ` (${wishlist.length})` : ""}</span>
                 </Link>
               </li>
               <li className="theme-item">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import JobCard from "../components/JobCard";
@@ -10,6 +10,7 @@ import {
   ResourceCard,
   TestimonialCard,
 } from "../components/HomeComponents";
+import { getCandidateApplications } from "../services/applications";
 import { getJobs, mapJobSummary } from "../services/jobs";
 import "./Home.css";
 
@@ -128,19 +129,38 @@ const TESTIMONIALS = [
 
 const Home = () => {
   const [jobs, setJobs] = useState([]);
+  const [appliedJobIds, setAppliedJobIds] = useState([]);
+  const currentUser = useMemo(() => {
+    const rawUser = localStorage.getItem("user");
+    return rawUser ? JSON.parse(rawUser) : null;
+  }, []);
 
   useEffect(() => {
     const loadJobs = async () => {
       try {
-        const data = await getJobs({ limit: 8 });
-        setJobs(data.jobs.map(mapJobSummary));
+        const requests = [getJobs({ limit: 8 })];
+
+        if (currentUser?.role === "candidate") {
+          requests.push(getCandidateApplications(currentUser.id));
+        }
+
+        const [jobData, applicationData] = await Promise.all(requests);
+        setJobs(jobData.jobs.map(mapJobSummary));
+        setAppliedJobIds(
+          currentUser?.role === "candidate"
+            ? (applicationData?.applications || []).map(
+                (application) => application.job_id,
+              )
+            : [],
+        );
       } catch {
         setJobs([]);
+        setAppliedJobIds([]);
       }
     };
 
     loadJobs();
-  }, []);
+  }, [currentUser]);
 
   const featuredJobs = jobs.slice(0, 6);
   const latestJobs = jobs.slice(0, 2);
@@ -217,7 +237,13 @@ const Home = () => {
           <h2>Featured Jobs</h2>
           <div className="job-grid">
             {featuredJobs.length > 0 ? (
-              featuredJobs.map((job) => <JobCard key={job.id} {...job} />)
+              featuredJobs.map((job) => (
+                <JobCard
+                  key={job.id}
+                  {...job}
+                  isApplied={appliedJobIds.includes(job.id)}
+                />
+              ))
             ) : (
               <p>No featured jobs available right now.</p>
             )}
@@ -273,7 +299,13 @@ const Home = () => {
           <h2>Latest Jobs</h2>
           <div className="job-grid">
             {latestJobs.length > 0 ? (
-              latestJobs.map((job) => <JobCard key={job.id} {...job} />)
+              latestJobs.map((job) => (
+                <JobCard
+                  key={job.id}
+                  {...job}
+                  isApplied={appliedJobIds.includes(job.id)}
+                />
+              ))
             ) : (
               <p>No latest jobs available right now.</p>
             )}
@@ -291,7 +323,11 @@ const Home = () => {
 
         <section className="cta-bottom-section">
           <h2>Ready to Start Your Career Journey?</h2>
-          <button className="btn btn-primary">Create Account</button>
+          <Link to="/signup">
+            <button className="btn btn-primary">
+              Create Account
+            </button>
+          </Link>
         </section>
       </main>
 

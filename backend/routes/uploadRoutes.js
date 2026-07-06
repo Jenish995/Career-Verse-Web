@@ -13,26 +13,46 @@ const storage = multer.diskStorage({
   },
 });
 
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image/")) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only image files are allowed"));
-  }
-};
-
-const upload = multer({
+const imageUpload = multer({
   storage,
-  fileFilter,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only image files are allowed"));
+    }
+  },
   limits: {
     fileSize: 5 * 1024 * 1024,
   },
 });
 
+const resumeUpload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const allowedMimeTypes = new Set([
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ]);
+
+    if (allowedMimeTypes.has(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only PDF, DOC, and DOCX files are allowed"));
+    }
+  },
+  limits: {
+    fileSize: 8 * 1024 * 1024,
+  },
+});
+
 router.post("/image", (req, res) => {
-  upload.single("image")(req, res, (error) => {
+  imageUpload.single("image")(req, res, (error) => {
     if (error) {
-      return res.status(400).json({ message: error.message || "Upload failed" });
+      return res
+        .status(400)
+        .json({ message: error.message || "Upload failed" });
     }
 
     if (!req.file) {
@@ -40,7 +60,28 @@ router.post("/image", (req, res) => {
     }
 
     const fileUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
-    return res.status(201).json({ message: "Image uploaded successfully", url: fileUrl });
+    return res
+      .status(201)
+      .json({ message: "Image uploaded successfully", url: fileUrl });
+  });
+});
+
+router.post("/resume", (req, res) => {
+  resumeUpload.single("resume")(req, res, (error) => {
+    if (error) {
+      return res
+        .status(400)
+        .json({ message: error.message || "Upload failed" });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ message: "No resume selected" });
+    }
+
+    const fileUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+    return res
+      .status(201)
+      .json({ message: "Resume uploaded successfully", url: fileUrl });
   });
 });
 

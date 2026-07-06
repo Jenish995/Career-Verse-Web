@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
 import JobFilters from "../components/JobFilters.jsx";
 import JobCard from "../components/JobCard.jsx";
+import { getCandidateApplications } from "../services/applications";
 import { getJobs, mapJobSummary } from "../services/jobs";
 import "./BrowseJobs.css";
 
@@ -12,17 +13,36 @@ const BrowseJobs = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [locationQuery, setLocationQuery] = useState("");
   const [sortBy, setSortBy] = useState("Newest First");
+  const [appliedJobIds, setAppliedJobIds] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState({
     jobType: [],
     experience: [],
     category: [],
   });
 
+  const currentUser = useMemo(() => {
+    const rawUser = localStorage.getItem("user");
+    return rawUser ? JSON.parse(rawUser) : null;
+  }, []);
+
   useEffect(() => {
     const loadJobs = async () => {
       try {
-        const data = await getJobs();
-        setJobs(data.jobs.map(mapJobSummary));
+        const requests = [getJobs()];
+
+        if (currentUser?.role === "candidate") {
+          requests.push(getCandidateApplications(currentUser.id));
+        }
+
+        const [jobData, applicationData] = await Promise.all(requests);
+        setJobs(jobData.jobs.map(mapJobSummary));
+        setAppliedJobIds(
+          currentUser?.role === "candidate"
+            ? (applicationData?.applications || []).map(
+                (application) => application.job_id,
+              )
+            : [],
+        );
       } catch (err) {
         setError(err.message || "Unable to fetch jobs");
       } finally {
@@ -31,7 +51,7 @@ const BrowseJobs = () => {
     };
 
     loadJobs();
-  }, []);
+  }, [currentUser]);
 
   const filteredJobs = useMemo(() => {
     let result = jobs.filter((job) => {
@@ -148,7 +168,13 @@ const BrowseJobs = () => {
           ) : (
             <div className="jobs-list">
               {filteredJobs.length > 0 ? (
-                filteredJobs.map((job) => <JobCard key={job.id} {...job} />)
+                filteredJobs.map((job) => (
+                  <JobCard
+                    key={job.id}
+                    {...job}
+                    isApplied={appliedJobIds.includes(job.id)}
+                  />
+                ))
               ) : (
                 <div className="no-results">
                   <i className="bx bx-search-alt"></i>

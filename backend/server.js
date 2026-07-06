@@ -6,6 +6,8 @@ require("dotenv").config();
 const authRoutes = require("./routes/authRoute");
 const userRoutes = require("./routes/userRoutes");
 const jobRoutes = require("./routes/jobRoutes");
+const applicationRoutes = require("./routes/applicationRoutes");
+const savedJobRoutes = require("./routes/savedJobRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 
 const app = express();
@@ -24,6 +26,8 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/jobs", jobRoutes);
+app.use("/api/applications", applicationRoutes);
+app.use("/api/saved-jobs", savedJobRoutes);
 app.use("/api/uploads", uploadRoutes);
 
 app.get("/", (req, res) => {
