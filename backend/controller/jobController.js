@@ -5,6 +5,7 @@ const {
   updateJob,
   deleteJob,
 } = require("../model/JobModel");
+const { createNotificationsForAllCandidates } = require("../model/NotificationModel");
 
 const getJobs = async (req, res) => {
   try {
@@ -44,6 +45,15 @@ const createNewJob = async (req, res) => {
 
   try {
     const job = await createJob(req.body);
+
+    // Fan-out: notify all candidates about the new job (non-blocking)
+    const notifTitle = "New Job Posted";
+    const companyDisplay = job.company_name || "A company";
+    const notifMessage = `${companyDisplay} just posted a new ${job.title} position. Check it out!`;
+    createNotificationsForAllCandidates(job.id, notifTitle, notifMessage).catch((err) =>
+      console.error("Notification fan-out error:", err.message)
+    );
+
     return res.status(201).json({ message: "Job created successfully", job });
   } catch (error) {
     console.error("Create job error:", error.message);

@@ -61,6 +61,7 @@ export const mapJobSummary = (job) => ({
   postedDate: new Date(job.created_at),
   category: job.category,
   tags: job.skills || [],
+  applicantsCount: job.applicants_count || 0,
 });
 
 export const mapJobDetails = (job) => ({

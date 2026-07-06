@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import "./Navbar.css";
 import { useTheme } from "../context/ThemeContext.jsx";
 import { Link, useNavigate } from "react-router-dom";
-import { clearAuthSession } from "../services/auth";
+import { AUTH_CHANGED_EVENT, clearAuthSession } from "../services/auth";
 import { useWishlist } from "../context/useWishlist";
+import { useNotifications } from "../context/useNotifications";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const { wishlist } = useWishlist();
+  const { unreadCount } = useNotifications();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -17,6 +19,20 @@ const Navbar = () => {
 
   const themeIcon = theme === "dark" ? "bx-sun" : "bx-moon";
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const getAvatarUrl = () => {
+    const rawProfile = localStorage.getItem("profile");
+    const profile = rawProfile ? JSON.parse(rawProfile) : null;
+    return profile?.avatar_url || null;
+  };
+
+  const [avatarUrl, setAvatarUrl] = useState(getAvatarUrl);
+
+  useEffect(() => {
+    const handleAuthChange = () => setAvatarUrl(getAvatarUrl());
+    window.addEventListener(AUTH_CHANGED_EVENT, handleAuthChange);
+    return () => window.removeEventListener(AUTH_CHANGED_EVENT, handleAuthChange);
+  }, []);
 
   const profileRoute =
     user?.role === "admin"
@@ -110,18 +126,7 @@ const Navbar = () => {
                   </li>
                 </>
               ) : null}
-              <li>
-                <Link to="/notifications" onClick={() => setIsMenuOpen(false)}>
-                  <i className="bx bx-bell"></i>
-                  <span>Notifications</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/saved" onClick={() => setIsMenuOpen(false)}>
-                  <i className="bx bx-bookmark"></i>
-                  <span>Saved Jobs{wishlist.length > 0 ? ` (${wishlist.length})` : ""}</span>
-                </Link>
-              </li>
+
               <li className="theme-item">
                 <button
                   type="button"
@@ -150,8 +155,19 @@ const Navbar = () => {
                     aria-label="Open account menu"
                     aria-expanded={isProfileMenuOpen}
                   >
-                    <i className="bx bx-user-circle"></i>
+                    {avatarUrl ? (
+                      <img
+                        src={avatarUrl}
+                        alt="Profile"
+                        className="nav-avatar"
+                      />
+                    ) : (
+                      <i className="bx bx-user-circle"></i>
+                    )}
                     <span className="profile-trigger-label">Account</span>
+                    {unreadCount > 0 && (
+                      <span className="notif-dot" aria-label={`${unreadCount} unread notifications`} />
+                    )}
                   </button>
                   <div className="profile-dropdown">
                     <Link
@@ -164,6 +180,36 @@ const Navbar = () => {
                       <i className="bx bx-user"></i>
                       <span>{profileLabel}</span>
                     </Link>
+                    <Link
+                      to="/notifications"
+                      onClick={() => {
+                        setIsProfileMenuOpen(false);
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      <i className="bx bx-bell"></i>
+                      <span>
+                        Notifications
+                        {unreadCount > 0 && (
+                          <span className="notif-badge" aria-label={`${unreadCount} unread`}>
+                            {unreadCount > 99 ? "99+" : unreadCount}
+                          </span>
+                        )}
+                      </span>
+                    </Link>
+                    <Link
+                      to="/saved"
+                      onClick={() => {
+                        setIsProfileMenuOpen(false);
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      <i className="bx bx-bookmark"></i>
+                      <span>Saved Jobs{wishlist.length > 0 ? (
+                        <span className="saved-badge">{wishlist.length}</span>
+                      ) : null}</span>
+                    </Link>
+                    <div className="profile-dropdown-divider"></div>
                     <button
                       type="button"
                       className="logout-button"

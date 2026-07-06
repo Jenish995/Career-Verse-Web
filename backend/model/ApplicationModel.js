@@ -100,8 +100,50 @@ const createApplication = async ({ jobId, candidateId, resumeUrl, coverLetter })
   }
 };
 
+const listApplicationsByJob = async (jobId) => {
+  const result = await pool.query(
+    `SELECT
+       ja.id,
+       ja.job_id,
+       ja.candidate_id,
+       ja.resume_url,
+       ja.cover_letter,
+       ja.status,
+       ja.applied_at,
+       ja.updated_at,
+       c.full_name AS candidate_name,
+       c.avatar_url AS candidate_avatar,
+       c.phone AS candidate_phone,
+       c.location AS candidate_location,
+       c.bio AS candidate_bio,
+       u.email AS candidate_email
+     FROM job_applications ja
+     INNER JOIN candidates c ON c.user_id = ja.candidate_id
+     INNER JOIN users u ON u.id = c.user_id
+     WHERE ja.job_id = $1
+     ORDER BY ja.applied_at DESC`,
+    [jobId]
+  );
+
+  return result.rows;
+};
+
+const updateApplicationStatus = async (applicationId, status) => {
+  const result = await pool.query(
+    `UPDATE job_applications
+     SET status = $2, updated_at = CURRENT_TIMESTAMP
+     WHERE id = $1
+     RETURNING id, job_id, candidate_id, resume_url, cover_letter, status, applied_at, updated_at`,
+    [applicationId, status]
+  );
+
+  return result.rows[0] || null;
+};
+
 module.exports = {
   findApplicationByJobAndCandidate,
   listApplicationsByCandidate,
   createApplication,
+  listApplicationsByJob,
+  updateApplicationStatus,
 };

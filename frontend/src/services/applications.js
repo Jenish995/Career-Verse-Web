@@ -32,3 +32,20 @@ export const getCandidateApplications = async (candidateId) => {
   const response = await fetch(`${API_BASE_URL}/applications/candidate/${candidateId}`);
   return parseJsonResponse(response);
 };
+
+export const getJobApplications = async (jobId) => {
+  const response = await fetch(`${API_BASE_URL}/applications/job/${jobId}`);
+  return parseJsonResponse(response);
+};
+
+export const updateApplicationStatus = async (applicationId, status) => {
+  const response = await fetch(`${API_BASE_URL}/applications/${applicationId}/status`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ status }),
+  });
+  return parseJsonResponse(response);
+};
+

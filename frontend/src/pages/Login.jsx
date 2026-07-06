@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
 import logo from "../assets/Logo.png";
 import { loginUser, persistAuthSession } from "../services/auth";
 import "./Registration.css";
@@ -54,7 +53,6 @@ const Login = () => {
 
   return (
     <div className="home-page-wrapper">
-      <Navbar />
       <div className="auth-container">
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="Logo">

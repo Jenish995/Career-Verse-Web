@@ -2,6 +2,8 @@ const {
   findApplicationByJobAndCandidate,
   listApplicationsByCandidate,
   createApplication,
+  listApplicationsByJob,
+  updateApplicationStatus: updateApplicationStatusModel,
 } = require("../model/ApplicationModel");
 
 const getApplicationStatus = async (req, res) => {
@@ -64,8 +66,48 @@ const applyToJob = async (req, res) => {
   }
 };
 
+const getJobApplications = async (req, res) => {
+  const { jobId } = req.params;
+
+  try {
+    const applications = await listApplicationsByJob(jobId);
+    return res.status(200).json({ applications });
+  } catch (error) {
+    console.error("Get job applications error:", error.message);
+    return res.status(500).json({ message: "Server error while fetching job applications" });
+  }
+};
+
+const updateApplicationStatus = async (req, res) => {
+  const { applicationId } = req.params;
+  const { status } = req.body;
+
+  const validStatuses = ["applied", "reviewing", "interviewing", "offered", "rejected", "withdrawn"];
+  if (!status || !validStatuses.includes(status)) {
+    return res.status(400).json({ message: `Invalid status. Must be one of: ${validStatuses.join(", ")}` });
+  }
+
+  try {
+    const application = await updateApplicationStatusModel(applicationId, status);
+
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    return res.status(200).json({
+      message: "Application status updated successfully",
+      application,
+    });
+  } catch (error) {
+    console.error("Update application status error:", error.message);
+    return res.status(500).json({ message: "Server error while updating application status" });
+  }
+};
+
 module.exports = {
   getApplicationStatus,
   getCandidateApplications,
   applyToJob,
+  getJobApplications,
+  updateApplicationStatus,
 };

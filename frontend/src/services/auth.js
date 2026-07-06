@@ -97,6 +97,7 @@ export const persistAuthSession = (data) => {
 
 export const persistProfile = (profile) => {
   localStorage.setItem("profile", JSON.stringify(profile));
+  notifyAuthChanged();
 };
 
 export const uploadImage = async (file) => {

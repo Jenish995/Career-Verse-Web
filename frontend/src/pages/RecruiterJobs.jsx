@@ -128,6 +128,9 @@ const RecruiterJobs = () => {
                   <Link className="btn btn-outline" to={`/job/${job.id}`}>
                     View
                   </Link>
+                  <Link className="btn btn-success" to={`/recruiter/jobs/${job.id}/applications`}>
+                    Applicants ({job.applicantsCount || 0})
+                  </Link>
                   <Link className="btn btn-primary" to={`/post-job/${job.id}`}>
                     Edit
                   </Link>
