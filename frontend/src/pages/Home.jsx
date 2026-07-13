@@ -8,7 +8,6 @@ import {
   CompanyCard,
   TimelineItem,
   ResourceCard,
-  TestimonialCard,
 } from "../components/HomeComponents";
 import { getCandidateApplications } from "../services/applications";
 import { getJobs, mapJobSummary } from "../services/jobs";
@@ -108,24 +107,7 @@ const RESOURCES = [
   },
 ];
 
-const TESTIMONIALS = [
-  {
-    image: "https://via.placeholder.com/50",
-    name: "Jane Doe",
-    role: "Frontend Developer",
-    rating: 5,
-    quote:
-      "Career Verse helped me land my dream job in just a few weeks! The platform is intuitive and the job matching is spot on.",
-  },
-  {
-    image: "https://via.placeholder.com/50",
-    name: "John Smith",
-    role: "HR Manager",
-    rating: 4.5,
-    quote:
-      "Finding qualified candidates has never been easier. Career Verse's talent pool is exceptional and the tools are fantastic.",
-  },
-];
+
 
 const Home = () => {
   const [jobs, setJobs] = useState([]);
@@ -162,8 +144,8 @@ const Home = () => {
     loadJobs();
   }, [currentUser]);
 
-  const featuredJobs = jobs.slice(0, 6);
   const latestJobs = jobs.slice(0, 2);
+
 
   return (
     <div className="home-page-wrapper">
@@ -211,44 +193,8 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="job-search-section">
-          <h2>Discover Your Next Opportunity</h2>
-          <div className="search-bar-large">
-            <input
-              type="text"
-              placeholder="Job title, keywords..."
-              aria-label="Job title"
-            />
-            <input type="text" placeholder="Location" aria-label="Location" />
-            <select aria-label="Category">
-              <option value="">Category</option>
-              <option value="software">Software Development</option>
-              <option value="design">UI/UX Design</option>
-              <option value="data">Data Science</option>
-              <option value="marketing">Marketing</option>
-            </select>
-            <button className="btn btn-primary">
-              <i className="bx bx-search"></i> Search
-            </button>
-          </div>
-        </section>
 
-        <section className="featured-jobs-section">
-          <h2>Featured Jobs</h2>
-          <div className="job-grid">
-            {featuredJobs.length > 0 ? (
-              featuredJobs.map((job) => (
-                <JobCard
-                  key={job.id}
-                  {...job}
-                  isApplied={appliedJobIds.includes(job.id)}
-                />
-              ))
-            ) : (
-              <p>No featured jobs available right now.</p>
-            )}
-          </div>
-        </section>
+
 
         <section className="browse-categories-section">
           <h2>Browse by Category</h2>
@@ -312,14 +258,7 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="testimonials-section">
-          <h2>What Our Users Say</h2>
-          <div className="testimonial-grid">
-            {TESTIMONIALS.map((testimonial, index) => (
-              <TestimonialCard key={index} {...testimonial} />
-            ))}
-          </div>
-        </section>
+
 
         <section className="cta-bottom-section">
           <h2>Ready to Start Your Career Journey?</h2>

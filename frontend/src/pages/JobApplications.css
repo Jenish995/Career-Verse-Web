@@ -683,3 +683,53 @@
     justify-content: center;
   }
 }
+
+/* Status Confirmation Bar */
+.status-confirm-bar {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: color-mix(in srgb, var(--primary-color) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary-color) 30%, transparent);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: confirmFadeIn 0.2s ease;
+}
+
+@keyframes confirmFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.status-confirm-msg {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-confirm-msg i {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.status-confirm-msg strong {
+  color: var(--primary-color);
+  text-transform: capitalize;
+}
+
+.status-confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-sm {
+  padding: 7px 16px;
+  font-size: 0.85rem;
+  border-radius: 8px;
+}
+

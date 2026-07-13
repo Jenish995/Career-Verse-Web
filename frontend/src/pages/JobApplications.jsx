@@ -25,6 +25,7 @@ const JobApplications = () => {
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [profileError, setProfileError] = useState("");
   const [updatingStatus, setUpdatingStatus] = useState(false);
+  const [pendingStatus, setPendingStatus] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,7 +91,7 @@ const JobApplications = () => {
     setSuccess("");
     try {
       await updateApplicationStatus(appId, newStatus);
-      
+
       // Update local state for candidate listing
       setApplications((prev) =>
         prev.map((app) => (app.id === appId ? { ...app, status: newStatus } : app))
@@ -107,7 +108,18 @@ const JobApplications = () => {
       setError(err.message || "Failed to update candidate status.");
     } finally {
       setUpdatingStatus(false);
+      setPendingStatus(null);
     }
+  };
+
+  const handleConfirmStatus = () => {
+    if (pendingStatus && selectedApp) {
+      handleStatusChange(selectedApp.id, pendingStatus);
+    }
+  };
+
+  const handleCancelStatus = () => {
+    setPendingStatus(null);
   };
 
   const getStatusBadgeClass = (status) => {
@@ -412,9 +424,13 @@ const JobApplications = () => {
                         <label htmlFor="status-select">Current Status:</label>
                         <select
                           id="status-select"
-                          value={selectedApp.status}
+                          value={pendingStatus ?? selectedApp.status}
                           disabled={updatingStatus}
-                          onChange={(e) => handleStatusChange(selectedApp.id, e.target.value)}
+                          onChange={(e) => {
+                            if (e.target.value !== selectedApp.status) {
+                              setPendingStatus(e.target.value);
+                            }
+                          }}
                         >
                           <option value="applied">Applied</option>
                           <option value="reviewing">Reviewing</option>
@@ -424,6 +440,34 @@ const JobApplications = () => {
                           <option value="withdrawn">Withdrawn</option>
                         </select>
                       </div>
+
+                      {pendingStatus && (
+                        <div className="status-confirm-bar">
+                          <p className="status-confirm-msg">
+                            <i className="bx bx-info-circle"></i>
+                            Change status to{" "}
+                            <strong>{pendingStatus}</strong>?
+                          </p>
+                          <div className="status-confirm-actions">
+                            <button
+                              className="btn btn-primary btn-sm"
+                              onClick={handleConfirmStatus}
+                              disabled={updatingStatus}
+                              type="button"
+                            >
+                              {updatingStatus ? "Updating..." : "Update Status"}
+                            </button>
+                            <button
+                              className="btn btn-outline btn-sm"
+                              onClick={handleCancelStatus}
+                              disabled={updatingStatus}
+                              type="button"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      )}
 
                       {selectedApp.resume_url ? (
                         <a

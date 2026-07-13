@@ -78,8 +78,20 @@ const markAllReadForUser = async (userId) => {
   );
 };
 
+/**
+ * Insert a single notification for one specific user (e.g. status update to candidate).
+ */
+const createNotificationForUser = async (userId, jobId, title, message) => {
+  await pool.query(
+    `INSERT INTO notifications (user_id, job_id, title, message)
+     VALUES ($1, $2, $3, $4)`,
+    [userId, jobId, title, message]
+  );
+};
+
 module.exports = {
   createNotificationsForAllCandidates,
+  createNotificationForUser,
   getNotificationsByUserId,
   getUnreadCountByUserId,
   markAllReadForUser,

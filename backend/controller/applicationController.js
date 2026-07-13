@@ -6,6 +6,9 @@ const {
   updateApplicationStatus: updateApplicationStatusModel,
 } = require("../model/ApplicationModel");
 
+const { createNotificationForUser } = require("../model/NotificationModel");
+const pool = require("../database/db");
+
 const getApplicationStatus = async (req, res) => {
   const { jobId, candidateId } = req.query;
 
@@ -93,6 +96,35 @@ const updateApplicationStatus = async (req, res) => {
     if (!application) {
       return res.status(404).json({ message: "Application not found" });
     }
+
+    // Fetch job title so we can compose a meaningful notification message
+    const jobResult = await pool.query(
+      `SELECT title FROM jobs WHERE id = $1`,
+      [application.job_id]
+    );
+    const jobTitle = jobResult.rows[0]?.title || "your applied job";
+
+    // Build a friendly status label
+    const statusLabels = {
+      applied: "Applied",
+      reviewing: "Under Review",
+      interviewing: "Invited for Interview",
+      offered: "Offered",
+      rejected: "Rejected",
+      withdrawn: "Withdrawn",
+    };
+    const statusLabel = statusLabels[status] || status;
+
+    const notificationTitle = `Application Status Update`;
+    const notificationMessage = `Your application for "${jobTitle}" has been updated to: ${statusLabel}.`;
+
+    // Send notification to the candidate (fire-and-forget, don't block the response)
+    createNotificationForUser(
+      application.candidate_id,
+      application.job_id,
+      notificationTitle,
+      notificationMessage
+    ).catch((err) => console.error("Failed to send status notification:", err.message));
 
     return res.status(200).json({
       message: "Application status updated successfully",
