@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 import logo from '../assets/Logo.png';
 import { forgotPassword, verifyOtp, resetPassword } from '../services/auth';
 import './Forgotpassword.css';
@@ -181,7 +180,6 @@ const Forgotpassword = () => {
 
   return (
     <div className="home-page-wrapper">
-      <Navbar />
       <div className="auth-container">
         {step === 1 && (
           <div className="auth-form">
