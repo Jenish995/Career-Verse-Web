@@ -13,6 +13,8 @@ import {
 const DEFAULT_BANNER =
   "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1000";
 const DEFAULT_LOGO = "https://cdn-icons-png.flaticon.com/512/281/281764.png";
+const DEFAULT_AVATAR =
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='100%' height='100%'><rect width='24' height='24' fill='%23e2e8f0'/><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z' fill='%2394a3b8'/></svg>";
 
 const emptyForm = {
   fullName: "",
@@ -193,13 +195,11 @@ const RecruiterProfile = () => {
                 <div className="profile-title-info">
                   <h1>{headerCompanyName || "Your Company"}</h1>
                   <div className="recruiter-header-meta">
-                    {headerRecruiterAvatar ? (
-                      <img
-                        src={headerRecruiterAvatar}
-                        alt={headerRecruiterName || "Recruiter"}
-                        className="recruiter-mini-avatar"
-                      />
-                    ) : null}
+                    <img
+                      src={headerRecruiterAvatar || DEFAULT_AVATAR}
+                      alt={headerRecruiterName || "Recruiter"}
+                      className="recruiter-mini-avatar"
+                    />
                     <p className="profile-role">
                       Managed by{" "}
                       <strong>{headerRecruiterName || "Recruiter"}</strong>

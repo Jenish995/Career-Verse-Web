@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./Navbar.css";
 import { useTheme } from "../context/ThemeContext.jsx";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,6 +13,41 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+
+  const profileTimeoutRef = useRef(null);
+
+  const handleProfileMouseEnter = () => {
+    if (profileTimeoutRef.current) {
+      clearTimeout(profileTimeoutRef.current);
+      profileTimeoutRef.current = null;
+    }
+    setIsProfileMenuOpen(true);
+  };
+
+  const handleProfileMouseLeave = () => {
+    if (profileTimeoutRef.current) {
+      clearTimeout(profileTimeoutRef.current);
+    }
+    profileTimeoutRef.current = setTimeout(() => {
+      setIsProfileMenuOpen(false);
+    }, 200);
+  };
+
+  const closeProfileMenuImmediately = () => {
+    if (profileTimeoutRef.current) {
+      clearTimeout(profileTimeoutRef.current);
+      profileTimeoutRef.current = null;
+    }
+    setIsProfileMenuOpen(false);
+  };
+
+  const toggleProfileMenu = () => {
+    if (profileTimeoutRef.current) {
+      clearTimeout(profileTimeoutRef.current);
+      profileTimeoutRef.current = null;
+    }
+    setIsProfileMenuOpen((prev) => !prev);
+  };
 
   const rawUser = localStorage.getItem("user");
   const user = rawUser ? JSON.parse(rawUser) : null;
@@ -31,7 +66,12 @@ const Navbar = () => {
   useEffect(() => {
     const handleAuthChange = () => setAvatarUrl(getAvatarUrl());
     window.addEventListener(AUTH_CHANGED_EVENT, handleAuthChange);
-    return () => window.removeEventListener(AUTH_CHANGED_EVENT, handleAuthChange);
+    return () => {
+      window.removeEventListener(AUTH_CHANGED_EVENT, handleAuthChange);
+      if (profileTimeoutRef.current) {
+        clearTimeout(profileTimeoutRef.current);
+      }
+    };
   }, []);
 
   const profileRoute =
@@ -44,13 +84,11 @@ const Navbar = () => {
   const profileLabel =
     user?.role === "admin"
       ? "Admin"
-      : user?.role === "recruiter"
-        ? "Recruiter"
-        : "Profile";
+      : "Profile";
 
   const handleLogout = () => {
     clearAuthSession();
-    setIsProfileMenuOpen(false);
+    closeProfileMenuImmediately();
     setIsMenuOpen(false);
     navigate("/login");
   };
@@ -145,13 +183,13 @@ const Navbar = () => {
               {user ? (
                 <li
                   className={`profile-menu ${isProfileMenuOpen ? "open" : ""}`}
-                  onMouseEnter={() => setIsProfileMenuOpen(true)}
-                  onMouseLeave={() => setIsProfileMenuOpen(false)}
+                  onMouseEnter={handleProfileMouseEnter}
+                  onMouseLeave={handleProfileMouseLeave}
                 >
                   <button
                     type="button"
                     className="profile-trigger"
-                    onClick={() => setIsProfileMenuOpen((prev) => !prev)}
+                    onClick={toggleProfileMenu}
                     aria-label="Open account menu"
                     aria-expanded={isProfileMenuOpen}
                   >
@@ -173,7 +211,7 @@ const Navbar = () => {
                     <Link
                       to={profileRoute}
                       onClick={() => {
-                        setIsProfileMenuOpen(false);
+                        closeProfileMenuImmediately();
                         setIsMenuOpen(false);
                       }}
                     >
@@ -183,7 +221,7 @@ const Navbar = () => {
                     <Link
                       to="/notifications"
                       onClick={() => {
-                        setIsProfileMenuOpen(false);
+                        closeProfileMenuImmediately();
                         setIsMenuOpen(false);
                       }}
                     >
@@ -200,7 +238,7 @@ const Navbar = () => {
                     <Link
                       to="/saved"
                       onClick={() => {
-                        setIsProfileMenuOpen(false);
+                        closeProfileMenuImmediately();
                         setIsMenuOpen(false);
                       }}
                     >
