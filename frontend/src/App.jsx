@@ -18,6 +18,7 @@ import AdminDashboard from "./pages/AdminDashboard.jsx";
 import PostJob from "./pages/PostJob.jsx";
 import RecruiterJobs from "./pages/RecruiterJobs.jsx";
 import JobApplications from "./pages/JobApplications.jsx";
+import ChangePassword from "./pages/ChangePassword.jsx";
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
             <Route path="/recruiter/jobs" element={<RecruiterJobs />} />
             <Route path="/recruiter/jobs/:jobId/applications" element={<JobApplications />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/change-password" element={<ChangePassword />} />
           </Routes>
         </NotificationProvider>
       </WishlistProvider>

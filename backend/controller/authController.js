@@ -2,9 +2,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const {
   findUserByEmail,
+  findUserById,
   findCandidateByUserId,
   findRecruiterByUserId,
   createUserWithProfile,
+  updateUserPassword,
 } = require("../model/UserModel");
 const {
   createPasswordResetOtp,
@@ -292,4 +294,42 @@ const resetPassword = async (req, res) => {
   }
 };
 
-module.exports = { register, login, forgotPassword, verifyOtp, resetPassword };
+const changePassword = async (req, res) => {
+  const { userId, currentPassword, newPassword } = req.body;
+
+  if (!userId || !currentPassword || !newPassword) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  if (newPassword.length < 6) {
+    return res.status(400).json({
+      message: "New password must be at least 6 characters long",
+    });
+  }
+
+  try {
+    const user = await findUserById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
+    if (!isMatch) {
+      return res
+        .status(401)
+        .json({ message: "Current password is incorrect" });
+    }
+
+    const passwordHash = await bcrypt.hash(newPassword, 10);
+    await updateUserPassword(userId, passwordHash);
+
+    return res.status(200).json({ message: "Password changed successfully" });
+  } catch (err) {
+    console.error("Change password error:", err.message);
+    return res
+      .status(500)
+      .json({ message: "Server error during password change" });
+  }
+};
+
+module.exports = { register, login, forgotPassword, verifyOtp, resetPassword, changePassword };

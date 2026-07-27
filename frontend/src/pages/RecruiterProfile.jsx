@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "./Profile.css";
 import "./RecruiterProfile.css";
@@ -33,6 +33,7 @@ const emptyForm = {
 };
 
 const RecruiterProfile = () => {
+  const navigate = useNavigate();
   const storedUser = useMemo(() => {
     const raw = localStorage.getItem("user");
     return raw ? JSON.parse(raw) : null;
@@ -218,6 +219,13 @@ const RecruiterProfile = () => {
                   >
                     <i className="bx bx-list-ul"></i> My Jobs
                   </Link>
+                  <button
+                    className="btn btn-outline"
+                    style={{ marginLeft: "10px" }}
+                    onClick={() => navigate("/change-password")}
+                  >
+                    <i className="bx bx-lock-alt"></i> Change Password
+                  </button>
                   <button
                     className="btn btn-outline"
                     style={{ marginLeft: "10px" }}

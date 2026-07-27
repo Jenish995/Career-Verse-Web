@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import {
   getCandidateProfile,
@@ -22,6 +23,7 @@ const emptyExperience = {
 };
 
 const Profile = () => {
+  const navigate = useNavigate();
   const storedUser = useMemo(() => {
     const rawUser = localStorage.getItem("user");
     return rawUser ? JSON.parse(rawUser) : null;
@@ -248,7 +250,15 @@ const Profile = () => {
             </div>
             <div className="profile-header-actions">
               <button
+                className="btn btn-outline"
+                onClick={() => navigate("/change-password")}
+              >
+                <i className="bx bx-lock-alt"></i>{" "}
+                Change Password
+              </button>
+              <button
                 className="btn btn-primary"
+                style={{ marginLeft: "10px" }}
                 onClick={() => setIsEditing((prev) => !prev)}
               >
                 <i className="bx bx-edit-alt"></i>{" "}

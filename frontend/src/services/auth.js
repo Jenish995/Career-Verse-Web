@@ -167,4 +167,17 @@ export const resetPassword = async (email, otp, password) => {
   return parseJsonResponse(response);
 };
 
+export const changePassword = async (userId, currentPassword, newPassword) => {
+  const response = await fetch(`${API_BASE_URL}/auth/change-password`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ userId, currentPassword, newPassword }),
+  });
+
+  return parseJsonResponse(response);
+};
+
+
 export { API_BASE_URL };

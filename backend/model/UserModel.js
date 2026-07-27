@@ -1,4 +1,4 @@
- pool = require("../database/db");
+const pool = require("../database/db");
 
 const findUserByEmail = async (email) => {
   const result = await pool.query(
@@ -381,11 +381,30 @@ const updateRecruiterProfile = async (userId, payload) => {
   }
 };
 
+const findUserById = async (userId) => {
+  const result = await pool.query(
+    `SELECT id, email, password_hash, role, created_at, updated_at
+     FROM users
+     WHERE id = $1`,
+    [userId],
+  );
+  return result.rows[0] || null;
+};
+
+const updateUserPassword = async (userId, passwordHash) => {
+  await pool.query(
+    `UPDATE users SET password_hash = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $1`,
+    [userId, passwordHash],
+  );
+};
+
 module.exports = {
   findUserByEmail,
+  findUserById,
   findCandidateByUserId,
   findRecruiterByUserId,
   createUserWithProfile,
   updateCandidateProfile,
   updateRecruiterProfile,
+  updateUserPassword,
 };

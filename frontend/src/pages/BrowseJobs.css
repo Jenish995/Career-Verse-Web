@@ -138,7 +138,7 @@
 
 .job-details-row i { margin-right: 4px; }
 
-.job-tags { display: flex; gap: 8px; margin-bottom: 20px; }
+.job-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; overflow: hidden; }
 .job-tag {
     background: var(--hover-bg);
     padding: 4px 12px;
